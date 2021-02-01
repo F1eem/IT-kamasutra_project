@@ -1,13 +1,13 @@
 import React from "react";
-import { Menu } from "../menu";
+import { Menu } from "../Menu";
 import { WrapperContent } from "./units";
 import { Route } from "react-router-dom";
-import { Settings } from "./settings";
-import { News } from "./news";
+import { Settings } from "./Settings";
+import { News } from "./News";
 import Dialogs from "./Dialogs/index";
 import Gallery from "./Gallery/index";
-import Users from "./users/index";
-import MainScreenContainer from "./mainscreen/index";
+import Users from "./Users/index";
+import Profile from "./Profile/index";
 import Login from "./Login";
 
 const Content = () => {
@@ -15,7 +15,7 @@ const Content = () => {
     <WrapperContent>
       <Menu />
       <Route path="/dialogs" render={() => <Dialogs />} />
-      <Route path="/profile/:userId?" render={() => <MainScreenContainer />} />
+      <Route path="/profile/:userId?" render={() => <Profile />} />
       <Route path="/gallery" render={() => <Gallery />} />
       <Route path="/users" render={() => <Users />} />
       <Route path="/login" render={() => <Login />} />

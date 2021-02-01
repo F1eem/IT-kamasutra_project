@@ -3,13 +3,21 @@ import { ProfileInfo } from "./profileInfo";
 import { WrapperMainScreen } from "./units";
 import MyPosts from "./MyPosts/index";
 import { useParams } from "react-router-dom";
-import {connect} from "react-redux";
-import {compose} from "redux";
-import {getUserProfile,getUserStatus,updateUserStatus} from "../../../redux/profileReducer";
-import {withAuthRedirect} from "../../HOC/withAuthRedirect";
+import { connect } from "react-redux";
+import { compose } from "redux";
+import {
+  getUserProfile,
+  getUserStatus,
+  updateUserStatus,
+} from "../../../redux/profileReducer";
+import { withAuthRedirect } from "../../HOC/withAuthRedirect";
 
-
-const MainScreen = ({ updateUserStatus,getUserStatus,getUserProfile, profilePage }) => {
+const Profile = ({
+  updateUserStatus,
+  getUserStatus,
+  getUserProfile,
+  profilePage,
+}) => {
   let { userId } = useParams();
   if (!userId) {
     userId = 13107;
@@ -34,6 +42,6 @@ let mapStateToProps = (state) => {
   };
 };
 export default compose(
-    connect(mapStateToProps, { getUserProfile,getUserStatus,updateUserStatus }),
-    withAuthRedirect
-)(MainScreen);
+  connect(mapStateToProps, { getUserProfile, getUserStatus, updateUserStatus }),
+  withAuthRedirect
+)(Profile);
