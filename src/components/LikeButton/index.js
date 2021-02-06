@@ -1,12 +1,8 @@
-import React from 'react';
-import { WrapperLikeButton } from './units';
+import React from "react";
+import { WrapperLikeButton } from "./units";
 
 const LikeButton = () => {
-    return (
-        <WrapperLikeButton>
-        Like
-        </WrapperLikeButton>
-    )
-}
+  return <WrapperLikeButton>Like</WrapperLikeButton>;
+};
 
-export {LikeButton}
+export default LikeButton;

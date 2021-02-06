@@ -1,11 +1,10 @@
-import { profileAPI } from "../api/api";
+import { profileAPI } from "api/api";
 
 const ADD_POST = "ADD_POST";
 const UPDATE_NEW_POST_TEXT = "UPDATE_NEW_POST_TEXT";
 const SET_USER_PROFILE = "SET_USER_PROFILE";
 const SET_USER_STATUS = "SET_USER_STATUS";
 const UPDATE_USER_STATUS = "UPDATE_USER_STATUS";
-
 
 let initialState = {
   postsData: [
@@ -27,7 +26,7 @@ let initialState = {
   ],
   updateNewText: "",
   profile: null,
-  status: null
+  status: null,
 };
 
 const profileReducer = (state = initialState, action) => {
@@ -53,7 +52,7 @@ const profileReducer = (state = initialState, action) => {
     case SET_USER_STATUS: {
       return {
         ...state,
-        status: action.status
+        status: action.status,
       };
     }
     case SET_USER_PROFILE: {

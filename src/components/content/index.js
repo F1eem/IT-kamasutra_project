@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu } from "../Menu";
+import Menu from "../Menu";
 import { WrapperContent } from "./units";
 import { Route } from "react-router-dom";
 import { Settings } from "./Settings";

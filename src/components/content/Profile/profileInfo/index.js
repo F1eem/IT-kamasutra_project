@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { WrapperDiscription } from "./units";
-import { Preloader } from "../../../Preloader";
+import { Preloader } from "components/Preloader";
 
-const ProfileInfo = ({profile,status,updateUserStatus}) => {
+const ProfileInfo = ({ profile, status, updateUserStatus }) => {
   const [editMode, setEditMode] = useState(false);
-  const [newStatus,setNewStatus] = useState(status);
+  const [newStatus, setNewStatus] = useState(status);
 
   useEffect(() => {
-    setNewStatus(status)
+    setNewStatus(status);
   }, [status]);
 
   if (!profile) {
@@ -18,7 +18,7 @@ const ProfileInfo = ({profile,status,updateUserStatus}) => {
         {/*<img alt='Пусто' src="https://yahont-hotel.ru/ckeditor_images/chernomorskoje_vid.jpg"*/}
         {/*     height='300px'/>*/}
         <WrapperDiscription>
-          <img src={profile.photos.large} />
+          <img alt="Profile photo" src={profile.photos.large} />
           <div>
             <div>
               <b>Имя:</b> {profile.fullName}
@@ -28,26 +28,28 @@ const ProfileInfo = ({profile,status,updateUserStatus}) => {
             </div>
           </div>
         </WrapperDiscription>
-            {!editMode && (
+        {!editMode && (
           <div>
-          <span onDoubleClick={() => setEditMode(true)}>{status|| '----'}</span>
+            <span onDoubleClick={() => setEditMode(true)}>
+              {status || "----"}
+            </span>
           </div>
-          )}
+        )}
         {editMode && (
           <div>
-          <input
-          autoFocus={true}
-          onBlur={() => {
-          setEditMode(false);
-          updateUserStatus(newStatus)
-        }}
-          value={newStatus}
-          onChange={(e) => setNewStatus(e.target.value)}
-          />
+            <input
+              autoFocus={true}
+              onBlur={() => {
+                setEditMode(false);
+                updateUserStatus(newStatus);
+              }}
+              value={newStatus}
+              onChange={(e) => setNewStatus(e.target.value)}
+            />
           </div>
-          )}
+        )}
       </>
     );
 };
 
-export { ProfileInfo };
+export default ProfileInfo;

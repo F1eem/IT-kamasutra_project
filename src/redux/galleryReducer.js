@@ -1,4 +1,4 @@
-import { galleryAPI } from "../api/api";
+import { galleryAPI } from "api/api";
 import { toggleIsFetching } from "./usersReducer";
 
 const SET_PHOTOS_DATA = "SET_PHOTOS_DATA";

@@ -8,7 +8,7 @@ import {
 } from "./units";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { getAuthData, logout } from "./../../redux/authReduser";
+import { getAuthData, logout } from "redux/authReduser";
 
 const Header = ({ auth, getAuthData, logout }) => {
   useEffect(() => {
@@ -17,7 +17,7 @@ const Header = ({ auth, getAuthData, logout }) => {
 
   return (
     <Wrapper>
-      <WrapperImg src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg"></WrapperImg>
+      <WrapperImg src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg" />
       <WrapperTitle>Заголовок сайта</WrapperTitle>
       <WrapperLogin>
         {auth.isAuth === false ? (
@@ -33,9 +33,6 @@ const Header = ({ auth, getAuthData, logout }) => {
   );
 };
 
-let mapStateToProps = (state) => {
-  return {
-    auth: state.auth,
-  };
-};
+let mapStateToProps = ({ auth }) => ({ auth });
+
 export default connect(mapStateToProps, { getAuthData, logout })(Header);

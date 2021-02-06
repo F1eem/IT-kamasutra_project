@@ -1,15 +1,13 @@
 import React from "react";
 import { Round, Wrapper } from "./units";
 
-const Friend = ({friendName}) => {
+const Friend = ({ friendName }) => {
   return (
-    <>
-      <Wrapper>
-        <Round></Round>
-        {friendName}
-      </Wrapper>
-    </>
+    <Wrapper>
+      <Round />
+      {friendName}
+    </Wrapper>
   );
 };
 
-export { Friend };
+export default Friend;

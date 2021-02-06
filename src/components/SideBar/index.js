@@ -1,10 +1,11 @@
 import React from "react";
-import { Friend } from "./Friend";
+import Friend from "./Friend";
 import { Wrapper } from "./units";
+import { connect } from "react-redux";
 
-const SideBar = ({sideBar}) => {
-  let elementFriend = sideBar.friendName.map((e) => (
-    <Friend key = {e.id} friendName={e.name} />
+const SideBar = ({ sideBar }) => {
+  const elementFriend = sideBar.friendName.map(({ id, name, key }) => (
+    <Friend key={key} id={id} friendName={name} />
   ));
 
   return (
@@ -15,4 +16,6 @@ const SideBar = ({sideBar}) => {
   );
 };
 
-export { SideBar };
+let mapStateToProps = ({ sideBar }) => ({ sideBar });
+
+export default connect(mapStateToProps)(SideBar);

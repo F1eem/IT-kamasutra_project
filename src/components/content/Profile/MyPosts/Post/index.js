@@ -1,6 +1,6 @@
 import React from "react";
-import { LikeButton } from "../../../../LikeButton";
-import { LikeCounter } from "../../../../LikeCounter";
+import LikeButton from "components/LikeButton";
+import LikeCounter from "components/LikeCounter";
 import { WrapperPost, PostImg } from "./units";
 
 const Post = ({ link, text, number }) => {
@@ -15,4 +15,4 @@ const Post = ({ link, text, number }) => {
     </>
   );
 };
-export { Post };
+export default Post;

@@ -7,10 +7,6 @@ const Login = ({ isAuth }) => {
   return <>{isAuth ? <Redirect to={"/profile"} /> : <AuthForm />}</>;
 };
 
-const mapStateToProps = (state) => {
-  return {
-    isAuth: state.auth.isAuth,
-  };
-};
+const mapStateToProps = ({ auth }) => ({ isAuth: auth.isAuth });
 
 export default connect(mapStateToProps)(Login);

@@ -29,12 +29,6 @@ export const Error = styled.div`
   color: red;
   font-size: 14px;
 `;
-export const ServerLoginError = styled.div`
-  display: flex;
-  justify-content: center;
-  color: red;
-  font-size: 14px;
-`;
 export const Field = styled.input`
   border-radius: 10px;
   display: flex;

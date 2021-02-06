@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { DialogAvatar, Wrapper } from "./units";
 
-const DialogItem = ({id, name, avatar}) => {
+const DialogItem = ({ id, name, avatar }) => {
   return (
     <Wrapper>
       <DialogAvatar src={avatar} />
@@ -11,4 +11,4 @@ const DialogItem = ({id, name, avatar}) => {
   );
 };
 
-export { DialogItem };
+export default DialogItem;

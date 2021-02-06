@@ -3,8 +3,8 @@ import userAvatar from "../../assets/img/avatar.png";
 import { WrapperName, WrapperPageNumber, WrapperUsersForm } from "./units";
 import { Preloader } from "../../Preloader";
 import { NavLink } from "react-router-dom";
-import {compose} from "redux";
-import {connect} from "react-redux";
+import { compose } from "redux";
+import { connect } from "react-redux";
 import {
   addFollowSuccess,
   delFollowSuccess,
@@ -13,9 +13,11 @@ import {
   setTotalCount,
   setUsers,
   toggleFollow,
-  toggleIsFetching
-} from "../../../redux/usersReducer";
-import {withAuthRedirect} from "../../HOC/withAuthRedirect";
+  toggleIsFetching,
+} from "redux/usersReducer";
+import { withAuthRedirect } from "components/HOC/withAuthRedirect";
+
+let pageNumber = [];
 
 const Users = ({
   users,
@@ -37,12 +39,11 @@ const Users = ({
 
   let userPageCount = Math.ceil(totalCount / pageSize);
 
-  let pageNumber = [];
   for (let p = 1; p <= userPageCount; p++) {
     pageNumber.push(p);
   }
 
-  let onCurrentPageChange = (page) => {
+  const onCurrentPageChange = (page) => {
     setCurrentPage(page);
     getUser(pageSize, page);
   };
@@ -68,26 +69,26 @@ const Users = ({
         <Preloader />
       ) : (
         <div>
-          {users.map((e) => (
-            <WrapperUsersForm key={e.id}>
+          {users.map(({ id, photos, followed, name, status, key }) => (
+            <WrapperUsersForm key={key}>
               <div>
                 <div>
-                  <NavLink to={"/profile/ " + e.id}>
+                  <NavLink to={"/profile/ " + id}>
                     <img
                       alt="Аватар"
-                      src={e.photos.small ? e.photos.small : userAvatar}
+                      src={photos.small ? photos.small : userAvatar}
                       height="70 px"
                     />
                   </NavLink>
                 </div>
                 <div>
-                  {e.followed ? (
+                  {followed ? (
                     <button
                       disabled={toggleFollowingProgress.some(
-                        (id) => id === e.id
+                        (id) => id === { id }
                       )}
                       onClick={() => {
-                        delFollowSuccess(e.id);
+                        delFollowSuccess(id);
                       }}
                     >
                       Follow
@@ -95,10 +96,10 @@ const Users = ({
                   ) : (
                     <button
                       disabled={toggleFollowingProgress.some(
-                        (id) => id === e.id
+                        (id) => id === { id }
                       )}
                       onClick={() => {
-                        addFollowSuccess(e.id);
+                        addFollowSuccess(id);
                       }}
                     >
                       Unfollow
@@ -108,8 +109,8 @@ const Users = ({
               </div>
               <div>
                 <div>
-                  <WrapperName>{e.name}</WrapperName>
-                  <div>{e.status}</div>
+                  <WrapperName>{name}</WrapperName>
+                  <div>{status}</div>
                 </div>
                 <div>
                   <div>{"e.location.city"}</div>
@@ -124,28 +125,28 @@ const Users = ({
   );
 };
 
-let mapStateToProps = (state) => {
+const mapStateToProps = ({ usersPage, auth }) => {
   return {
-    users: state.usersPage.users,
-    totalCount: state.usersPage.totalCount,
-    pageSize: state.usersPage.pageSize,
-    currentUsersPage: state.usersPage.currentUsersPage,
-    isFetching: state.usersPage.isFetching,
-    toggleFollowingProgress: state.usersPage.toggleFollowingProgress,
-    isAuth: state.auth.isAuth,
+    users: usersPage.users,
+    totalCount: usersPage.totalCount,
+    pageSize: usersPage.pageSize,
+    currentUsersPage: usersPage.currentUsersPage,
+    isFetching: usersPage.isFetching,
+    toggleFollowingProgress: usersPage.toggleFollowingProgress,
+    isAuth: auth.isAuth,
   };
 };
 
 export default compose(
-    connect(mapStateToProps, {
-      toggleFollow,
-      setUsers,
-      setCurrentPage,
-      setTotalCount,
-      toggleIsFetching,
-      getUser,
-      delFollowSuccess,
-      addFollowSuccess,
-    }),
-    withAuthRedirect
+  connect(mapStateToProps, {
+    toggleFollow,
+    setUsers,
+    setCurrentPage,
+    setTotalCount,
+    toggleIsFetching,
+    getUser,
+    delFollowSuccess,
+    addFollowSuccess,
+  }),
+  withAuthRedirect
 )(Users);

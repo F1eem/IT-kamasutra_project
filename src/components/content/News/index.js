@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { MyDropdown } from "../../MyDropdown";
+import { MyDropdown } from "components/MyDropdown";
 import { Wrapper } from "./units";
 
 let options = [

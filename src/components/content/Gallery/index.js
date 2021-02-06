@@ -16,9 +16,35 @@ import {
   delPhoto,
   addPhoto,
   updateUrlText,
-} from "../../../redux/galleryReducer";
-import { Preloader } from "../../Preloader";
-import { MyDropdown } from "../../MyDropdown";
+} from "redux/galleryReducer";
+import { Preloader } from "components/Preloader";
+import { MyDropdown } from "components/MyDropdown";
+let options = [
+  {
+    elem: "All",
+    id: 0,
+  },
+  {
+    elem: "Automobile",
+    id: 1,
+  },
+  {
+    elem: "Animal",
+    id: 2,
+  },
+  {
+    elem: "Nature",
+    id: 3,
+  },
+  {
+    elem: "1",
+    id: 4,
+  },
+  {
+    elem: "Space",
+    id: 5,
+  },
+];
 
 const Gallery = ({
   galleryPage,
@@ -27,32 +53,6 @@ const Gallery = ({
   addPhoto,
   updateUrlText,
 }) => {
-  let options = [
-    {
-      elem: "All",
-      id: 0,
-    },
-    {
-      elem: "Automobile",
-      id: 1,
-    },
-    {
-      elem: "Animal",
-      id: 2,
-    },
-    {
-      elem: "Nature",
-      id: 3,
-    },
-    {
-      elem: "1",
-      id: 4,
-    },
-    {
-      elem: "Space",
-      id: 5,
-    },
-  ];
   const [elem, setElem] = useState(options[0].elem);
   const [visible, setVisible] = useState(false);
   const dropdownClickHandler = (elem) => {
@@ -67,8 +67,8 @@ const Gallery = ({
           value={galleryPage.newUrlText}
           placeholder="Enter URL"
         />
-        <button onClick={() => addPhoto()}>Add</button>
-        <button onClick={() => getPhotos()}>Load from server</button>
+        <button onClick={addPhoto}>Add</button>
+        <button onClick={getPhotos}>Load from server</button>
         <Filter>
           <div>
             Выберите категорию: <b onClick={() => setVisible(true)}> {elem} </b>
@@ -86,36 +86,37 @@ const Gallery = ({
         {galleryPage.isFetching ? (
           <Preloader />
         ) : elem === "All" ? (
-          galleryPage.photos.map((e) => (
-            <Photo key={e.id}>
-              <Img src={e.url} />
-              <Album>Album: {e.albumId}</Album>
-              <Title>{e.title}</Title>
-              <DelButton onClick={() => delPhoto(e.id)}>Delete</DelButton>
+          galleryPage.photos.map(({ key, url, albumId, title, id }) => (
+            <Photo key={key}>
+              <Img src={url} />
+              <Album>Album: {albumId}</Album>
+              <Title>{title}</Title>
+              <DelButton onClick={() => delPhoto(id)}>Delete</DelButton>
             </Photo>
           ))
         ) : (
-          galleryPage.photos
-            .filter((e) => e.albumId == elem)
-            .map((e) => (
-              <Photo>
-                <Img src={e.url} />
-                <Album>Album: {e.albumId}</Album>
-                <Title>{e.title}</Title>
-                <DelButton onClick={() => delPhoto(e.id)}>Delete</DelButton>
-              </Photo>
-            ))
+          galleryPage.photos.reduce((total, amount) => {
+            if (amount.albumId == elem) {
+              total.push(
+                <Photo>
+                  <Img src={amount.url} />
+                  <Album>Album: {amount.albumId}</Album>
+                  <Title>{amount.title}</Title>
+                  <DelButton onClick={() => delPhoto(amount.id)}>
+                    Delete
+                  </DelButton>
+                </Photo>
+              );
+            }
+            return total;
+          }, [])
         )}
       </PhotosWrapper>
     </GalleryWrapper>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    galleryPage: state.galleryPage,
-  };
-};
+const mapStateToProps = ({ galleryPage }) => ({ galleryPage });
 
 export default connect(mapStateToProps, {
   getPhotos,

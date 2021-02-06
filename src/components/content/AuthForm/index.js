@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Error,
-  Field,
-  FormWrapper,
-  Header,
-  ServerLoginError,
-} from "./units";
-import { login } from "../../../redux/authReduser";
+import { Button, Error, Field, FormWrapper, Header } from "./units";
+import { login } from "redux/authReduser";
 import { connect } from "react-redux";
 
 const AuthForm = ({ login, loginError }) => {
@@ -28,6 +21,8 @@ const AuthForm = ({ login, loginError }) => {
       case "password":
         setPasswordDirty(true);
         break;
+      default:
+        break;
     }
   };
   const emailHandler = (e) => {
@@ -42,11 +37,12 @@ const AuthForm = ({ login, loginError }) => {
   const passwordHandler = (e) => {
     setPassword(e.target.value);
     if (e.target.value.length < 3 || e.target.value.length > 15) {
-      setPasswordError(
-        "Пароль должен быть не короче 3 и не длинее 15 символов!"
-      );
       if (!e.target.value) {
         setPasswordError("Пароль не может быть пустым!");
+      } else {
+        setPasswordError(
+          "Пароль должен быть не короче 3 и не длинее 15 символов!"
+        );
       }
     } else {
       setPasswordError("");
@@ -63,23 +59,23 @@ const AuthForm = ({ login, loginError }) => {
       {emailDirty && emailError && <Error>{emailError}</Error>}
       <Field
         error={emailError && emailDirty}
-        onChange={(e) => emailHandler(e)}
+        onChange={emailHandler}
         value={email}
-        onBlur={(e) => blurHandler(e)}
+        onBlur={blurHandler}
         name="email"
         placeholder={"Your email"}
       />
       {passwordDirty && passwordError && <Error>{passwordError}</Error>}
       <Field
         error={passwordError && passwordDirty}
-        onChange={(e) => passwordHandler(e)}
+        onChange={passwordHandler}
         value={password}
-        onBlur={(e) => blurHandler(e)}
+        onBlur={blurHandler}
         name="password"
         placeholder={"Your password"}
         type={"password"}
       />
-      {loginError && <ServerLoginError>{loginError}</ServerLoginError>}
+      {loginError && <Error>{loginError}</Error>}
       <Button
         onClick={() => login(email, password, false)}
         disabled={!formValid}
@@ -89,9 +85,6 @@ const AuthForm = ({ login, loginError }) => {
     </FormWrapper>
   );
 };
-const mapStateToProps = (state) => {
-  return {
-    loginError: state.auth.loginError,
-  };
-};
+const mapStateToProps = ({ auth }) => ({ loginError: auth.loginError });
+
 export default connect(mapStateToProps, { login })(AuthForm);

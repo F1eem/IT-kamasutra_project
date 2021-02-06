@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 
-import { WrapperRed} from "./units";
+import { WrapperRed } from "./units";
 
 const Svet = () => {
-    const [Num, SetNum] = useState(0)
-    
+  const [Num, SetNum] = useState(0);
+
   return (
     <>
       <div>
-        <WrapperRed color = 'green' light = {Num == 0 ? 1 : 0}></WrapperRed>
-        <WrapperRed color = 'yellow' light = {Num == 1 ? 1 : 0}></WrapperRed>
-        <WrapperRed color = 'red' light = {Num == 2 ? 1 : 0}></WrapperRed>
+        <WrapperRed color="green" light={Num === 0} />
+        <WrapperRed color="yellow" light={Num === 1} />
+        <WrapperRed color="red" light={Num === 2} />
       </div>
-      <button onClick={() => SetNum(Num ===  2 ? 0 : Num + 1)  } >Start</button>
+      <button onClick={() => SetNum(Num === 2 ? 0 : Num + 1)}>Start</button>
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { userAPI } from "../api/api";
+import { userAPI } from "api/api";
 
 const TOGGLE_FOLLOW = "TOGGLE_FOLLOW";
 const SET_USERS = "SET_USERS";

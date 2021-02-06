@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { ProfileInfo } from "./profileInfo";
+import ProfileInfo from "./profileInfo";
 import { WrapperMainScreen } from "./units";
 import MyPosts from "./MyPosts/index";
 import { useParams } from "react-router-dom";
@@ -9,22 +9,21 @@ import {
   getUserProfile,
   getUserStatus,
   updateUserStatus,
-} from "../../../redux/profileReducer";
-import { withAuthRedirect } from "../../HOC/withAuthRedirect";
+} from "redux/profileReducer";
+import { withAuthRedirect } from "components/HOC/withAuthRedirect";
 
 const Profile = ({
   updateUserStatus,
   getUserStatus,
   getUserProfile,
   profilePage,
+  meId,
 }) => {
-  let { userId } = useParams();
-  if (!userId) {
-    userId = 13107;
-  }
+  const { userId } = useParams();
+
   useEffect(() => {
-    getUserStatus(userId);
-    getUserProfile(userId);
+    getUserStatus(userId || meId);
+    getUserProfile(userId || meId);
   }, []);
 
   return (
@@ -35,12 +34,11 @@ const Profile = ({
   );
 };
 
-let mapStateToProps = (state) => {
-  return {
-    profilePage: state.profilePage,
-    isAuth: state.auth.isAuth,
-  };
-};
+const mapStateToProps = ({ profilePage, auth }) => ({
+  profilePage,
+  isAuth: auth.isAuth,
+  meId: auth.id,
+});
 export default compose(
   connect(mapStateToProps, { getUserProfile, getUserStatus, updateUserStatus }),
   withAuthRedirect

@@ -1,12 +1,8 @@
-import React from 'react';
-import { WrapperLikeCounter } from './units';
+import React from "react";
+import { WrapperLikeCounter } from "./units";
 
-const LikeCounter = ({number}) => {
-    return (
-        <WrapperLikeCounter>
-        {number}
-        </WrapperLikeCounter>
-    )
-}
+const LikeCounter = ({ number }) => {
+  return <WrapperLikeCounter>{number}</WrapperLikeCounter>;
+};
 
-export {LikeCounter}
+export default LikeCounter;

@@ -1,34 +1,21 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import { WrapperMenu, WrapperMenuButton } from "./units";
-import { SidebarContainer } from "../SideBar/container";
+import { NavLinkButton, WrapperElemMenu, WrapperMenu } from "./units";
+import Sidebar from "../SideBar/index";
 
 const Menu = () => {
   return (
     <WrapperMenu>
-      <div>
-        <WrapperMenuButton>
-          <NavLink to="/profile">Profile</NavLink>
-        </WrapperMenuButton>
-        <WrapperMenuButton>
-          <NavLink to="/dialogs">Dialogs</NavLink>
-        </WrapperMenuButton>
-        <WrapperMenuButton>
-          <NavLink to="/gallery">Gallery</NavLink>
-        </WrapperMenuButton>
-        <WrapperMenuButton>
-          <NavLink to="/settings">Settings</NavLink>
-        </WrapperMenuButton>
-        <WrapperMenuButton>
-          <NavLink to="/news">News</NavLink>
-        </WrapperMenuButton>
-        <WrapperMenuButton>
-          <NavLink to="/users">Users</NavLink>
-        </WrapperMenuButton>
-      </div>
-      <SidebarContainer />
+      <WrapperElemMenu>
+        <NavLinkButton to="/profile">Profile</NavLinkButton>
+        <NavLinkButton to="/dialogs">Dialogs</NavLinkButton>
+        <NavLinkButton to="/gallery">Gallery</NavLinkButton>
+        <NavLinkButton to="/settings">Settings</NavLinkButton>
+        <NavLinkButton to="/news">News</NavLinkButton>
+        <NavLinkButton to="/users">Users</NavLinkButton>
+      </WrapperElemMenu>
+      <Sidebar />
     </WrapperMenu>
   );
 };
 
-export { Menu };
+export default Menu;
