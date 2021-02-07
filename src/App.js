@@ -1,14 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Content } from "./components/content";
 import Header from "./components/Header";
+import { connect } from "react-redux";
+import { initializeApp } from "redux/appReduser";
+import { Preloader } from "./components/Preloader";
 
-const App = () => {
+const App = ({ initialized, initializeApp }) => {
+  useEffect(() => {
+    initializeApp();
+  }, []);
+
   return (
     <>
-      <Header />
-      <Content />
+      {!initialized ? (
+        <Preloader />
+      ) : (
+        <>
+          <Header />
+          <Content />
+        </>
+      )}
     </>
   );
 };
+const mapStateToProps = ({ app }) => ({
+  initialized: app.initialized,
+});
 
-export default App;
+export default connect(mapStateToProps, { initializeApp })(App);

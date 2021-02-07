@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Logout,
   Wrapper,
@@ -8,13 +8,9 @@ import {
 } from "./units";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { getAuthData, logout } from "redux/authReduser";
+import { logout } from "redux/authReduser";
 
-const Header = ({ auth, getAuthData, logout }) => {
-  useEffect(() => {
-    getAuthData();
-  }, []);
-
+const Header = ({ auth, logout }) => {
   return (
     <Wrapper>
       <WrapperImg src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg" />
@@ -35,4 +31,4 @@ const Header = ({ auth, getAuthData, logout }) => {
 
 let mapStateToProps = ({ auth }) => ({ auth });
 
-export default connect(mapStateToProps, { getAuthData, logout })(Header);
+export default connect(mapStateToProps, { logout })(Header);

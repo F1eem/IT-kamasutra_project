@@ -38,7 +38,7 @@ export const setLoginError = (message) => ({
 });
 
 export const getAuthData = () => (dispatch) => {
-  authAPI.authMe().then((responce) => {
+  return authAPI.authMe().then((responce) => {
     if (responce.resultCode === 0) {
       let { id, email, login } = responce.data;
       dispatch(setAuthData(id, email, login, true));
