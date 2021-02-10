@@ -19,7 +19,7 @@ import {
 } from "redux/galleryReducer";
 import { Preloader } from "components/Preloader";
 import { MyDropdown } from "components/MyDropdown";
-let options = [
+const OPTIONS = [
   {
     elem: "All",
     id: 0,
@@ -53,7 +53,7 @@ const Gallery = ({
   addPhoto,
   updateUrlText,
 }) => {
-  const [elem, setElem] = useState(options[0].elem);
+  const [elem, setElem] = useState(OPTIONS[0].elem);
   const [visible, setVisible] = useState(false);
   const dropdownClickHandler = (elem) => {
     setElem(elem);
@@ -75,7 +75,7 @@ const Gallery = ({
           </div>
           {visible && (
             <MyDropdown
-              options={options}
+              options={OPTIONS}
               placeholder={"Введите категорию"}
               onClickItem={dropdownClickHandler}
             />
@@ -95,16 +95,14 @@ const Gallery = ({
             </Photo>
           ))
         ) : (
-          galleryPage.photos.reduce((total, amount) => {
-            if (amount.albumId == elem) {
+          galleryPage.photos.reduce((total, { albumId, url, title, id }) => {
+            if (albumId == elem) {
               total.push(
                 <Photo>
-                  <Img src={amount.url} />
-                  <Album>Album: {amount.albumId}</Album>
-                  <Title>{amount.title}</Title>
-                  <DelButton onClick={() => delPhoto(amount.id)}>
-                    Delete
-                  </DelButton>
+                  <Img src={url} />
+                  <Album>Album: {albumId}</Album>
+                  <Title>{title}</Title>
+                  <DelButton onClick={() => delPhoto(id)}>Delete</DelButton>
                 </Photo>
               );
             }

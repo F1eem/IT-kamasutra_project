@@ -17,27 +17,27 @@ const Profile = ({
   getUserStatus,
   getUserProfile,
   profilePage,
-  meId,
+  id,
 }) => {
   const { userId } = useParams();
 
   useEffect(() => {
-    getUserStatus(userId || meId);
-    getUserProfile(userId || meId);
+    getUserStatus(userId || id);
+    getUserProfile(userId || id);
   }, []);
 
   return (
     <WrapperMainScreen>
-      <ProfileInfo {...profilePage} updateUserStatus={updateUserStatus} />
+      <ProfileInfo {...profilePage} {...{ updateUserStatus }} />
       <MyPosts />
     </WrapperMainScreen>
   );
 };
 
-const mapStateToProps = ({ profilePage, auth }) => ({
+const mapStateToProps = ({ profilePage, auth: { isAuth, id } }) => ({
   profilePage,
-  isAuth: auth.isAuth,
-  meId: auth.id,
+  isAuth,
+  id,
 });
 export default compose(
   connect(mapStateToProps, { getUserProfile, getUserStatus, updateUserStatus }),

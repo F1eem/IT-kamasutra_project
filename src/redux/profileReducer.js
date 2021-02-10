@@ -67,7 +67,7 @@ const profileReducer = (state = initialState, action) => {
 };
 
 export const addNewPost = () => ({ type: ADD_POST });
-export const updateNewText = (text) => ({
+export const updateNewPostText = (text) => ({
   type: UPDATE_NEW_POST_TEXT,
   newText: text,
 });
@@ -99,7 +99,9 @@ export const getUserStatus = (userId) => {
 export const updateUserStatus = (status) => {
   return (dispatch) => {
     profileAPI.updateUserStatus(status).then((data) => {
-      dispatch(setUserStatus(status));
+      if (data.resultCode === 0) {
+        dispatch(setUserStatus(status));
+      }
     });
   };
 };

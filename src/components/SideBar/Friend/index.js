@@ -1,11 +1,11 @@
 import React from "react";
 import { Round, Wrapper } from "./units";
 
-const Friend = ({ friendName }) => {
+const Friend = ({ name }) => {
   return (
     <Wrapper>
       <Round />
-      {friendName}
+      {name}
     </Wrapper>
   );
 };

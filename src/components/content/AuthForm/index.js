@@ -85,6 +85,6 @@ const AuthForm = ({ login, loginError }) => {
     </FormWrapper>
   );
 };
-const mapStateToProps = ({ auth }) => ({ loginError: auth.loginError });
+const mapStateToProps = ({ auth: { loginError } }) => ({ loginError });
 
 export default connect(mapStateToProps, { login })(AuthForm);

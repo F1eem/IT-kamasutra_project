@@ -10,17 +10,17 @@ import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { logout } from "redux/authReduser";
 
-const Header = ({ auth, logout }) => {
+const Header = ({ auth: { isAuth, login }, logout }) => {
   return (
     <Wrapper>
       <WrapperImg src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Gull_portrait_ca_usa.jpg" />
       <WrapperTitle>Заголовок сайта</WrapperTitle>
       <WrapperLogin>
-        {auth.isAuth === false ? (
+        {isAuth === false ? (
           <NavLink to={"/Login"}>Login</NavLink>
         ) : (
           <>
-            <div>{auth.login}</div>
+            <div>{login}</div>
             <Logout onClick={() => logout()}>Logout</Logout>
           </>
         )}

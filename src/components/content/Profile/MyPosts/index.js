@@ -2,12 +2,12 @@ import React from "react";
 import Post from "./Post";
 import { WrapperMyPosts } from "./units";
 import { connect } from "react-redux";
-import { addNewPost, updateNewText } from "redux/profileReducer";
+import { addNewPost, updateNewPostText } from "redux/profileReducer";
 
-const MyPosts = ({ profilePage, addNewPost, updateNewText }) => {
+const MyPosts = ({ profilePage, addNewPost, updateNewPostText }) => {
   const postsElements = profilePage.postsData.map(
     ({ id, text, link, number, key }) => (
-      <Post key={key} id={id} text={text} link={link} number={number} />
+      <Post {...{ id, text, link, number, key }} />
     )
   );
 
@@ -16,7 +16,7 @@ const MyPosts = ({ profilePage, addNewPost, updateNewText }) => {
       <h3>My post</h3>
       <textarea
         value={profilePage.updateNewText}
-        onChange={(e) => updateNewText(e.target.value)}
+        onChange={(e) => updateNewPostText(e.target.value)}
       />
       <div>
         <button onClick={addNewPost}>Add post</button>
@@ -31,5 +31,5 @@ const mapStateToProps = ({ profilePage }) => ({ profilePage });
 
 export default connect(mapStateToProps, {
   addNewPost,
-  updateNewText,
+  updateNewPostText,
 })(MyPosts);

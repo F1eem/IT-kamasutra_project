@@ -11,7 +11,7 @@ const Post = ({ link, text, number }) => {
         <div>{text}</div>
       </WrapperPost>
       <LikeButton />
-      <LikeCounter number={number} />
+      <LikeCounter {...{ number }} />
     </>
   );
 };

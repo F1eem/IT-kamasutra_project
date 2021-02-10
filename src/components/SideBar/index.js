@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 const SideBar = ({ sideBar }) => {
   const elementFriend = sideBar.friendName.map(({ id, name, key }) => (
-    <Friend key={key} id={id} friendName={name} />
+    <Friend {...{ key, id, name }} />
   ));
 
   return (

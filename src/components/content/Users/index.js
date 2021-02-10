@@ -84,9 +84,7 @@ const Users = ({
                 <div>
                   {followed ? (
                     <button
-                      disabled={toggleFollowingProgress.some(
-                        (id) => id === { id }
-                      )}
+                      disabled={toggleFollowingProgress.some((e) => e === id)}
                       onClick={() => {
                         delFollowSuccess(id);
                       }}
@@ -95,9 +93,7 @@ const Users = ({
                     </button>
                   ) : (
                     <button
-                      disabled={toggleFollowingProgress.some(
-                        (id) => id === { id }
-                      )}
+                      disabled={toggleFollowingProgress.some((e) => e === id)}
                       onClick={() => {
                         addFollowSuccess(id);
                       }}
@@ -125,15 +121,25 @@ const Users = ({
   );
 };
 
-const mapStateToProps = ({ usersPage, auth }) => {
+const mapStateToProps = ({
+  usersPage: {
+    users,
+    totalCount,
+    pageSize,
+    currentUsersPage,
+    isFetching,
+    toggleFollowingProgress,
+  },
+  auth: { isAuth },
+}) => {
   return {
-    users: usersPage.users,
-    totalCount: usersPage.totalCount,
-    pageSize: usersPage.pageSize,
-    currentUsersPage: usersPage.currentUsersPage,
-    isFetching: usersPage.isFetching,
-    toggleFollowingProgress: usersPage.toggleFollowingProgress,
-    isAuth: auth.isAuth,
+    users,
+    totalCount,
+    pageSize,
+    currentUsersPage,
+    isFetching,
+    toggleFollowingProgress,
+    isAuth,
   };
 };
 

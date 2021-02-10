@@ -13,9 +13,7 @@ import { withAuthRedirect } from "components/HOC/withAuthRedirect";
 
 const Dialogs = ({ dialogPage, onSendMessageClick, updateNewMessageText }) => {
   const dialogElements = dialogPage.dialogData.map(
-    ({ key, name, id, avatar }) => (
-      <DialogItem key={key} name={name} id={id} avatar={avatar} />
-    )
+    ({ key, name, id, avatar }) => <DialogItem {...{ key, name, id, avatar }} />
   );
 
   const messageElements = dialogPage.messageData.map(({ key, message }) => (
@@ -37,9 +35,9 @@ const Dialogs = ({ dialogPage, onSendMessageClick, updateNewMessageText }) => {
   );
 };
 
-const mapStateToProps = ({ dialogPage, auth }) => ({
+const mapStateToProps = ({ dialogPage, auth: { isAuth } }) => ({
   dialogPage,
-  isAuth: auth.isAuth,
+  isAuth,
 });
 
 export default compose(

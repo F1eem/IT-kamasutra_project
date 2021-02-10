@@ -4,10 +4,10 @@ import { Preloader } from "components/Preloader";
 
 const ProfileInfo = ({ profile, status, updateUserStatus }) => {
   const [editMode, setEditMode] = useState(false);
-  const [newStatus, setNewStatus] = useState(status);
+  const [localStatus, setLocalStatus] = useState(status);
 
   useEffect(() => {
-    setNewStatus(status);
+    setLocalStatus(status);
   }, [status]);
 
   if (!profile) {
@@ -41,10 +41,10 @@ const ProfileInfo = ({ profile, status, updateUserStatus }) => {
               autoFocus={true}
               onBlur={() => {
                 setEditMode(false);
-                updateUserStatus(newStatus);
+                updateUserStatus(localStatus);
               }}
-              value={newStatus}
-              onChange={(e) => setNewStatus(e.target.value)}
+              value={localStatus}
+              onChange={(e) => setLocalStatus(e.target.value)}
             />
           </div>
         )}
