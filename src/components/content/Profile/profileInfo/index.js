@@ -18,7 +18,7 @@ const ProfileInfo = ({ profile, status, updateUserStatus }) => {
         {/*<img alt='Пусто' src="https://yahont-hotel.ru/ckeditor_images/chernomorskoje_vid.jpg"*/}
         {/*     height='300px'/>*/}
         <WrapperDiscription>
-          <img alt="Profile photo" src={profile.photos.large} />
+          <img alt="Avatar" src={profile.photos.large} />
           <div>
             <div>
               <b>Имя:</b> {profile.fullName}

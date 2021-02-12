@@ -35,7 +35,7 @@ const Users = ({
     getUser(pageSize, currentUsersPage);
   }, []);
 
-  const [activePage, setActivePage] = useState(0);
+  const [activePage, setActivePage] = useState(1);
 
   let userPageCount = Math.ceil(totalCount / pageSize);
 
@@ -51,16 +51,16 @@ const Users = ({
   return (
     <div>
       <div>
-        {pageNumber.map((p, i) => (
+        {pageNumber.map((page, key) => (
           <WrapperPageNumber
-            key={p.id}
-            active={i === activePage}
+            key={key}
+            active={page === activePage}
             onClick={() => {
-              onCurrentPageChange(p);
-              setActivePage(i);
+              onCurrentPageChange(page);
+              setActivePage(page);
             }}
           >
-            {p}
+            {page}
           </WrapperPageNumber>
         ))}
       </div>
@@ -69,8 +69,8 @@ const Users = ({
         <Preloader />
       ) : (
         <div>
-          {users.map(({ id, photos, followed, name, status, key }) => (
-            <WrapperUsersForm key={key}>
+          {users.map(({ id, photos, followed, name, status }) => (
+            <WrapperUsersForm key={id}>
               <div>
                 <div>
                   <NavLink to={"/profile/ " + id}>

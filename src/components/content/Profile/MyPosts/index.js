@@ -6,8 +6,8 @@ import { addNewPost, updateNewPostText } from "redux/profileReducer";
 
 const MyPosts = ({ profilePage, addNewPost, updateNewPostText }) => {
   const postsElements = profilePage.postsData.map(
-    ({ id, text, link, number, key }) => (
-      <Post {...{ id, text, link, number, key }} />
+    ({ id, text, link, number }, key) => (
+      <Post {...{ key }} {...{ id, text, link, number }} />
     )
   );
 

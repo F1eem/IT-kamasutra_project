@@ -3,9 +3,9 @@ import Friend from "./Friend";
 import { Wrapper } from "./units";
 import { connect } from "react-redux";
 
-const SideBar = ({ sideBar }) => {
-  const elementFriend = sideBar.friendName.map(({ id, name, key }) => (
-    <Friend {...{ id, name, key }} />
+const SideBar = ({ sideBar: { friendName } }) => {
+  const elementFriend = friendName.map(({ id, name }, key) => (
+    <Friend {...{ key }} {...{ id, name }} />
   ));
 
   return (

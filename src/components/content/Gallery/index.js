@@ -86,8 +86,8 @@ const Gallery = ({
         {galleryPage.isFetching ? (
           <Preloader />
         ) : elem === "All" ? (
-          galleryPage.photos.map(({ key, url, albumId, title, id }) => (
-            <Photo key={key}>
+          galleryPage.photos.map(({ url, albumId, title, id }, key) => (
+            <Photo {...{ key }}>
               <Img src={url} />
               <Album>Album: {albumId}</Album>
               <Title>{title}</Title>
@@ -96,7 +96,7 @@ const Gallery = ({
           ))
         ) : (
           galleryPage.photos.reduce((total, { albumId, url, title, id }) => {
-            if (albumId == elem) {
+            if (albumId.toString() === elem) {
               total.push(
                 <Photo>
                   <Img src={url} />
