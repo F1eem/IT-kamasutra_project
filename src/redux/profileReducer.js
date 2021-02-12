@@ -9,20 +9,20 @@ const UPDATE_USER_STATUS = "UPDATE_USER_STATUS";
 let initialState = {
   postsData: [
     {
-      id: 1,
+      id: 0,
       text: "Post1",
       link:
         "https://peopletalk.ru/files/articles/6/5253/s5_8dad37e82e74f542e022285ff451078f.jpg",
       number: 6,
     },
     {
-      id: 2,
+      id: 1,
       text: "PewPew One Two Three",
       link: "https://www.kino-teatr.ru/movie/posters/big/8/36398.jpg",
       number: 10,
     },
-    { id: 3, text: "Post3", number: 155 },
-    { id: 4, text: "234234", number: 213 },
+    { id: 2, text: "Post3", number: 155 },
+    { id: 3, text: "234234", number: 213 },
   ],
   updateNewText: "",
   profile: null,
@@ -33,7 +33,7 @@ const profileReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_POST:
       let newPost = {
-        id: 5,
+        id: state.postsData.length,
         text: state.updateNewText,
         number: 0,
       };
@@ -75,34 +75,23 @@ export const setUserProfile = (profile) => ({
   type: SET_USER_PROFILE,
   profile,
 });
-
 export const setUserStatus = (status) => ({
   type: SET_USER_STATUS,
   status,
 });
-
-export const getUserProfile = (userId) => {
-  return (dispatch) => {
-    profileAPI.getUserProfile(userId).then((data) => {
-      dispatch(setUserProfile(data));
-    });
-  };
+export const getUserProfile = (userId) => async (dispatch) => {
+  const data = await profileAPI.getUserProfile(userId);
+  dispatch(setUserProfile(data));
+};
+export const getUserStatus = (userId) => async (dispatch) => {
+  const data = await profileAPI.getUserStatus(userId);
+  dispatch(setUserStatus(data));
+};
+export const updateUserStatus = (status) => async (dispatch) => {
+  const data = await profileAPI.updateUserStatus(status);
+  if (data.resultCode === 0) {
+    dispatch(setUserStatus(status));
+  }
 };
 
-export const getUserStatus = (userId) => {
-  return (dispatch) => {
-    profileAPI.getUserStatus(userId).then((data) => {
-      dispatch(setUserStatus(data));
-    });
-  };
-};
-export const updateUserStatus = (status) => {
-  return (dispatch) => {
-    profileAPI.updateUserStatus(status).then((data) => {
-      if (data.resultCode === 0) {
-        dispatch(setUserStatus(status));
-      }
-    });
-  };
-};
 export { profileReducer };

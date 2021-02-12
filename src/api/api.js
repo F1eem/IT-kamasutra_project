@@ -9,55 +9,61 @@ const instance = axios.create({
 });
 
 export const userAPI = {
-  getUsers: (pageSize = 5, currentUsersPage = 1) => {
-    return instance
-      .get(`users?count=${pageSize}&page=${currentUsersPage}`)
-      .then((responce) => responce.data);
+  getUsers: async (pageSize = 5, currentUsersPage = 1) => {
+    const response = await instance.get(
+      `users?count=${pageSize}&page=${currentUsersPage}`
+    );
+    return response.data;
   },
-  addFollow: (userId) => {
-    return instance.post(`follow/${userId}`).then((responce) => responce.data);
+  addFollow: async (userId) => {
+    const response = await instance.post(`follow/${userId}`);
+    return response.data;
   },
-  delFollow: (userId) => {
-    return instance
-      .delete(`follow/${userId}`)
-      .then((responce) => responce.data);
+  delFollow: async (userId) => {
+    const response = await instance.delete(`follow/${userId}`);
+    return response.data;
   },
 };
 
 export const profileAPI = {
-  getUserProfile: (userId) => {
-    return instance.get(`profile/${userId}`).then((responce) => responce.data);
+  getUserProfile: async (userId) => {
+    const response = await instance.get(`profile/${userId}`);
+    return response.data;
   },
-  getUserStatus: (userId) => {
-    return instance
-      .get(`profile/status/${userId}`)
-      .then((responce) => responce.data);
+  getUserStatus: async (userId) => {
+    const response = await instance.get(`profile/status/${userId}`);
+    return response.data;
   },
-  updateUserStatus: (status) => {
-    return instance
-      .put(`profile/status`, { status })
-      .then((responce) => responce.data);
+  updateUserStatus: async (status) => {
+    const response = await instance.put(`profile/status`, { status });
+    return response.data;
   },
 };
 
 export const authAPI = {
-  authMe: () => {
-    return instance.get(`auth/me`).then((responce) => responce.data);
+  authMe: async () => {
+    const response = await instance.get(`auth/me`);
+    return response.data;
   },
-  login: (email, password, rememberMe) => {
-    return instance
-      .post(`auth/login`, { email, password, rememberMe })
-      .then((responce) => responce.data);
+  login: async (email, password, rememberMe) => {
+    const response = await instance.post(`auth/login`, {
+      email,
+      password,
+      rememberMe,
+    });
+    return response.data;
   },
-  logout: () => {
-    return instance.delete(`auth/login`).then((responce) => responce.data);
+  logout: async () => {
+    const response = await instance.delete(`auth/login`);
+    return response.data;
   },
 };
 
 export const galleryAPI = {
-  getPhoto: () => {
-    return axios
-      .get("https://jsonplaceholder.typicode.com/albums/1/photos")
-      .then((responce) => responce.data);
+  getPhoto: async () => {
+    const response = await axios.get(
+      "https://jsonplaceholder.typicode.com/albums/1/photos"
+    );
+    return response.data;
   },
 };

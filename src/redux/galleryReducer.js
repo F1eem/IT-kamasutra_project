@@ -105,15 +105,11 @@ export const updateUrlText = (newText) => ({
   type: UPDATE_URL_TEXT,
   newText,
 });
-
-export const getPhotos = () => {
-  return (dispatch) => {
-    dispatch(toggleIsFetching(true));
-    galleryAPI.getPhoto().then((data) => {
-      dispatch(setPhotos(data));
-      dispatch(toggleIsFetching(false));
-    });
-  };
+export const getPhotos = () => async (dispatch) => {
+  dispatch(toggleIsFetching(true));
+  const data = await galleryAPI.getPhoto();
+  dispatch(setPhotos(data));
+  dispatch(toggleIsFetching(false));
 };
 
 export { galleryReducer };

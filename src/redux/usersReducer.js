@@ -85,37 +85,28 @@ export const toggleFollowingProgress = (isFetching, userId) => ({
   isFetching,
   userId,
 });
-export const getUser = (pageSize, currentUsersPage) => {
-  return (dispatch) => {
-    dispatch(toggleIsFetching(true));
-    userAPI.getUsers(pageSize, currentUsersPage).then((data) => {
-      dispatch(setUsers(data.items));
-      dispatch(setTotalCount(data.totalCount));
-      dispatch(toggleIsFetching(false));
-    });
-  };
+export const getUser = (pageSize, currentUsersPage) => async (dispatch) => {
+  dispatch(toggleIsFetching(true));
+  const data = await userAPI.getUsers(pageSize, currentUsersPage);
+  dispatch(setUsers(data.items));
+  dispatch(setTotalCount(data.totalCount));
+  dispatch(toggleIsFetching(false));
 };
-export const delFollowSuccess = (userId) => {
-  return (dispatch) => {
-    dispatch(toggleFollowingProgress(true, userId));
-    userAPI.delFollow(userId).then((data) => {
-      if (data.resultCode === 0) {
-        dispatch(toggleFollow(userId));
-      }
-      dispatch(toggleFollowingProgress(false, userId));
-    });
-  };
+export const delFollowSuccess = (userId) => async (dispatch) => {
+  dispatch(toggleFollowingProgress(true, userId));
+  const data = await userAPI.delFollow(userId);
+  if (data.resultCode === 0) {
+    dispatch(toggleFollow(userId));
+  }
+  dispatch(toggleFollowingProgress(false, userId));
 };
-export const addFollowSuccess = (userId) => {
-  return (dispatch) => {
-    dispatch(toggleFollowingProgress(true, userId));
-    userAPI.addFollow(userId).then((data) => {
-      if (data.resultCode === 0) {
-        dispatch(toggleFollow(userId));
-      }
-      dispatch(toggleFollowingProgress(false, userId));
-    });
-  };
+export const addFollowSuccess = (userId) => async (dispatch) => {
+  dispatch(toggleFollowingProgress(true, userId));
+  const data = await userAPI.addFollow(userId);
+  if (data.resultCode === 0) {
+    dispatch(toggleFollow(userId));
+  }
+  dispatch(toggleFollowingProgress(false, userId));
 };
 
 export { usersReducer };
