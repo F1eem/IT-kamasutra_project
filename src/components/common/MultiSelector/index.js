@@ -71,7 +71,7 @@ const MultiSelector = ({
           ) : (
             <div>
               {selectedItems.reduce((result, count, index) => {
-                if (index < 4) {
+                if (index < 3) {
                   result.push(
                     <SelectedItem>
                       <div>{count.item}</div>
@@ -84,7 +84,7 @@ const MultiSelector = ({
                 }
                 return result;
               }, [])}
-              <SelectedItem>Еще:{selectedItems.length}</SelectedItem>
+              <SelectedItem>Еще:{selectedItems.length - 3}</SelectedItem>
             </div>
           )}
           <SendButton
