@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import delImg from "components/assets/img/delbutton.png";
 import {
   DelButton,
@@ -12,14 +12,18 @@ import {
   SendButton,
   WrapperInput,
 } from "./units";
+import useOutsideClick from "../../Hooks/useOutsideClick";
 
 const MultiSelector = ({
   items,
   titleDropDawn,
-  titleSelected,
   placeholder,
   onClickSearchButton,
 }) => {
+  const ref = useRef();
+  useOutsideClick(ref, () => {
+    setActiveDropBox(false);
+  });
   const [selectedItems, setSelectedItems] = useState([]);
   const [inputText, setInputText] = useState("");
   const [activeDropBox, setActiveDropBox] = useState(false);
@@ -39,7 +43,7 @@ const MultiSelector = ({
   };
   return (
     <>
-      <DropBox>
+      <DropBox ref={ref}>
         <Title>{titleDropDawn}:</Title>
         <WrapperInput>
           {selectedItems.length < 3 ? (
