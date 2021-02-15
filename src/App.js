@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { Content } from "./components/content";
-import Header from "./components/Header";
+import Header from "./components/common/Header";
 import { connect } from "react-redux";
 import { initializeApp } from "redux/appReduser";
-import { Preloader } from "./components/Preloader";
+import { Preloader } from "./components/common/Preloader";
 
 const App = ({ initialized, initializeApp }) => {
   useEffect(() => {

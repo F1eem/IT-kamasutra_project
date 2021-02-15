@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import userAvatar from "../../assets/img/avatar.png";
-import { WrapperName, WrapperPageNumber, WrapperUsersForm } from "./units";
-import { Preloader } from "../../Preloader";
+import { UserName, UserForm, WrapperUsers, WrapperUsersPage } from "./units";
+import { Preloader } from "../../common/Preloader";
 import { NavLink } from "react-router-dom";
 import { compose } from "redux";
 import { connect } from "react-redux";
@@ -16,14 +16,13 @@ import {
   toggleIsFetching,
 } from "redux/usersReducer";
 import { withAuthRedirect } from "components/HOC/withAuthRedirect";
-
-let pageNumber = [];
+import Paginator from "../../common/Paginator";
 
 const Users = ({
   users,
   totalCount,
   pageSize,
-  currentUsersPage,
+  currentPage,
   setCurrentPage,
   isFetching,
   getUser,
@@ -32,55 +31,26 @@ const Users = ({
   toggleFollowingProgress,
 }) => {
   useEffect(() => {
-    getUser(pageSize, currentUsersPage);
-  }, []);
-
-  const [activePage, setActivePage] = useState(1);
-
-  let userPageCount = Math.ceil(totalCount / pageSize);
-
-  for (let p = 1; p <= userPageCount; p++) {
-    pageNumber.push(p);
-  }
-
-  const onCurrentPageChange = (page) => {
-    setCurrentPage(page);
-    getUser(pageSize, page);
-  };
-
+    getUser(pageSize, currentPage);
+  }, [currentPage]);
   return (
-    <div>
-      <div>
-        {pageNumber.map((page, key) => (
-          <WrapperPageNumber
-            key={key}
-            active={page === activePage}
-            onClick={() => {
-              onCurrentPageChange(page);
-              setActivePage(page);
-            }}
-          >
-            {page}
-          </WrapperPageNumber>
-        ))}
-      </div>
-
+    <WrapperUsersPage>
+      <Paginator {...{ setCurrentPage, pageSize, totalCount, currentPage }} />
       {isFetching ? (
         <Preloader />
       ) : (
-        <div>
+        <WrapperUsers>
           {users.map(({ id, photos, followed, name, status }) => (
-            <WrapperUsersForm key={id}>
+            <UserForm key={id}>
+              <UserName>{name}</UserName>
               <div>
-                <div>
-                  <NavLink to={"/profile/ " + id}>
-                    <img
-                      alt="Аватар"
-                      src={photos.small ? photos.small : userAvatar}
-                      height="70 px"
-                    />
-                  </NavLink>
-                </div>
+                <NavLink to={"/profile/ " + id}>
+                  <img
+                    alt="Аватар"
+                    src={photos.small ? photos.small : userAvatar}
+                    height="70 px"
+                  />
+                </NavLink>
                 <div>
                   {followed ? (
                     <button
@@ -104,20 +74,17 @@ const Users = ({
                 </div>
               </div>
               <div>
-                <div>
-                  <WrapperName>{name}</WrapperName>
-                  <div>{status}</div>
-                </div>
+                <div>Status:{status || "----"}</div>
                 <div>
                   <div>{"e.location.city"}</div>
                   <div>{"e.location.country"}</div>
                 </div>
               </div>
-            </WrapperUsersForm>
+            </UserForm>
           ))}
-        </div>
+        </WrapperUsers>
       )}
-    </div>
+    </WrapperUsersPage>
   );
 };
 
@@ -126,7 +93,7 @@ const mapStateToProps = ({
     users,
     totalCount,
     pageSize,
-    currentUsersPage,
+    currentPage,
     isFetching,
     toggleFollowingProgress,
   },
@@ -136,7 +103,7 @@ const mapStateToProps = ({
     users,
     totalCount,
     pageSize,
-    currentUsersPage,
+    currentPage,
     isFetching,
     toggleFollowingProgress,
     isAuth,

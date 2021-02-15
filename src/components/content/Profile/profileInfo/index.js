@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { WrapperDiscription } from "./units";
-import { Preloader } from "components/Preloader";
+import { Preloader } from "components/common/Preloader";
 
 const ProfileInfo = ({ profile, status, updateUserStatus }) => {
   const [editMode, setEditMode] = useState(false);

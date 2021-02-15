@@ -1,6 +1,6 @@
 import React from "react";
-import LikeButton from "components/LikeButton";
-import LikeCounter from "components/LikeCounter";
+import LikeButton from "components/common/LikeButton";
+import LikeCounter from "components/common/LikeCounter";
 import { WrapperPost, PostImg } from "./units";
 
 const Post = ({ link, text, number }) => {

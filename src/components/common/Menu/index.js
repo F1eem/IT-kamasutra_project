@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLinkButton, WrapperElemMenu, WrapperMenu } from "./units";
-import Sidebar from "../SideBar/index";
+import Sidebar from "../../SideBar";
 
 const Menu = () => {
   return (

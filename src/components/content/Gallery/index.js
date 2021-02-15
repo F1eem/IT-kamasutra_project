@@ -17,7 +17,7 @@ import {
   addPhoto,
   updateUrlText,
 } from "redux/galleryReducer";
-import { Preloader } from "components/Preloader";
+import { Preloader } from "components/common/Preloader";
 import { MyDropdown } from "components/MyDropdown";
 const OPTIONS = [
   {
@@ -66,6 +66,11 @@ const Gallery = ({
           onChange={(e) => updateUrlText(e.target.value)}
           value={galleryPage.newUrlText}
           placeholder="Enter URL"
+          onKeyDown={(e) => {
+            if (e.keyCode === 13) {
+              addPhoto();
+            }
+          }}
         />
         <button onClick={addPhoto}>Add</button>
         <button onClick={getPhotos}>Load from server</button>

@@ -1,18 +1,25 @@
 import styled from "@emotion/styled";
 
-const WrapperUsersForm = styled.div`
+const UserForm = styled.div`
   display: flex;
-  justify-content: left;
-  margin: 10px;
+  flex-direction: column;
+  margin: 5px;
+  width: 250px;
+  border: 1px solid rgba(83, 95, 109, 142);
+  border-radius: 3px;
+  padding: 2px;
 `;
-const WrapperName = styled.div`
-  font-size: 20px;
+const UserName = styled.div`
+  font-size: 16px;
   font-weight: bold;
 `;
-const WrapperPageNumber = styled.span`
-  cursor: pointer;
-  padding: 3px;
-  border: black solid 1px;
-  color: ${({ active }) => (active === true ? "red" : "black")};
+const WrapperUsers = styled.div`
+  display: flex;
+  flex-wrap: wrap;
 `;
-export { WrapperUsersForm, WrapperName, WrapperPageNumber };
+const WrapperUsersPage = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export { UserForm, UserName, WrapperUsers, WrapperUsersPage };
