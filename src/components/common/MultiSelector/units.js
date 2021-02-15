@@ -20,8 +20,8 @@ export const WrapperSelectedItems = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 250px;
-  height: 250px;
+`;
+export const WrapperInput = styled.div`
   border: 1px solid grey;
 `;
 export const Title = styled.div`
@@ -30,12 +30,15 @@ export const Title = styled.div`
 `;
 export const WrapperItems = styled.div`
   box-shadow: 0 0 3px grey;
+  margin-top: 3px;
 `;
 export const DropBox = styled.div`
   margin: 0 5px;
 `;
 export const InputItem = styled.input`
+  outline: none;
   padding: 10px;
+  border: none;
 `;
 export const SendButton = styled.button`
   border: none;

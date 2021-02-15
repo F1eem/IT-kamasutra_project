@@ -10,6 +10,7 @@ import {
   Item,
   InputItem,
   SendButton,
+  WrapperInput,
 } from "./units";
 
 const MultiSelector = ({
@@ -28,6 +29,7 @@ const MultiSelector = ({
     }
   };
   const delSelectItem = (item) => {
+    debugger;
     setSelectedItems(selectedItems.filter((e) => e !== item));
   };
   const onClickSearchButtonHandler = () => {
@@ -39,12 +41,51 @@ const MultiSelector = ({
     <>
       <DropBox>
         <Title>{titleDropDawn}:</Title>
-        <InputItem
-          onFocus={() => setActiveDropBox(true)}
-          placeholder={placeholder}
-          value={inputText}
-          onChange={(e) => setInputText(e.target.value)}
-        />
+        <WrapperInput>
+          {selectedItems.length < 3 ? (
+            <WrapperSelectedItems>
+              {selectedItems.map((e) => (
+                <SelectedItem>
+                  <div>{e.item}</div>
+                  <DelButton onClick={() => delSelectItem(e)} src={delImg} />
+                </SelectedItem>
+              ))}
+            </WrapperSelectedItems>
+          ) : (
+            <WrapperSelectedItems>
+              {selectedItems.reduce((result, count, index) => {
+                if (index < 2) {
+                  result.push(
+                    <SelectedItem>
+                      <div>{count.item}</div>
+                      <DelButton
+                        onClick={() => delSelectItem(count)}
+                        src={delImg}
+                      />
+                    </SelectedItem>
+                  );
+                }
+                return result;
+              }, [])}
+              <SelectedItem>
+                Еще:{selectedItems.length - 2}
+                <DelButton onClick={() => setSelectedItems([])} src={delImg} />
+              </SelectedItem>
+            </WrapperSelectedItems>
+          )}
+          <SendButton
+            disabled={selectedItems.length < 1}
+            onClick={onClickSearchButtonHandler}
+          >
+            Искать
+          </SendButton>
+          <InputItem
+            onFocus={() => setActiveDropBox(true)}
+            placeholder={placeholder}
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+          />
+        </WrapperInput>
         {activeDropBox && (
           <WrapperItems>
             {items.reduce((result, count) => {
@@ -58,43 +99,6 @@ const MultiSelector = ({
           </WrapperItems>
         )}
       </DropBox>
-      <div>
-        <Title>{titleSelected}:</Title>
-        <WrapperSelectedItems>
-          {selectedItems.length < 4 ? (
-            selectedItems.map((e) => (
-              <SelectedItem>
-                <div>{e.item}</div>
-                <DelButton onClick={() => delSelectItem(e)} src={delImg} />
-              </SelectedItem>
-            ))
-          ) : (
-            <div>
-              {selectedItems.reduce((result, count, index) => {
-                if (index < 3) {
-                  result.push(
-                    <SelectedItem>
-                      <div>{count.item}</div>
-                      <DelButton
-                        onClick={() => delSelectItem(count)}
-                        src={delImg}
-                      />
-                    </SelectedItem>
-                  );
-                }
-                return result;
-              }, [])}
-              <SelectedItem>Еще:{selectedItems.length - 3}</SelectedItem>
-            </div>
-          )}
-          <SendButton
-            disabled={selectedItems.length < 1}
-            onClick={onClickSearchButtonHandler}
-          >
-            Искать
-          </SendButton>
-        </WrapperSelectedItems>
-      </div>
     </>
   );
 };
