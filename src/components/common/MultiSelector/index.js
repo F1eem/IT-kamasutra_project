@@ -73,7 +73,12 @@ const MultiSelector = ({
               }, [])}
               <SelectedItem>
                 Еще:{selectedItems.length - 2}
-                <DelButton onClick={() => setSelectedItems([])} src={delImg} />
+                <DelButton
+                  onClick={() =>
+                    setSelectedItems([selectedItems[0], selectedItems[1]])
+                  }
+                  src={delImg}
+                />
               </SelectedItem>
             </WrapperSelectedItems>
           )}
