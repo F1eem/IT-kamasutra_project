@@ -1,30 +1,35 @@
 import React from "react";
 import { TestMenu } from "../../Test2";
 import MultiSelector from "../../common/MultiSelector";
+import { TestTable } from "../../common/Table";
 
-const ITEMS = [
-  { id: 0, item: "Алтайский край" },
-  { id: 1, item: "Амурская область" },
-  { id: 2, item: "Архангельская область" },
-  { id: 3, item: "Астраханская область" },
-  { id: 4, item: "Белгородская область" },
-  { id: 5, item: "Нижегородская область" },
+// const ITEMS = [
+//   { id: 0, item: "Алтайский край" },
+//   { id: 1, item: "Амурская область" },
+//   { id: 2, item: "Архангельская область" },
+//   { id: 3, item: "Астраханская область" },
+//   { id: 4, item: "Белгородская область" },
+//   { id: 5, item: "Нижегородская область" },
+// ];
+
+// const onClickSearchButton = (items) => {
+//   window.alert(items.map((e) => e.item));
+// };
+const TABLE_ITEMS = [
+  { id: 0, name: "Anton", secondName: "Tereshkin", age: "27" },
+  { id: 1, name: "Igor", secondName: "Tereshkin", age: "31" },
+  { id: 2, name: "Kristina", secondName: "Veselova", age: "32" },
+  { id: 3, name: "Ivan", secondName: "Barankin", age: "30" },
 ];
-
-const onClickSearchButton = (items) => {
-  window.alert(items.map((e) => e.item));
+const CONFIG = {
+  id: { title: "ИД" },
+  name: { title: "Имя" },
+  secondName: { title: "Фамилия" },
+  age: { title: "Возраст" },
 };
 
 const Settings = () => {
-  return (
-    <MultiSelector
-      items={ITEMS}
-      placeholder={"Выберите регион"}
-      titleDropDawn={"Регион проживания"}
-      titleSelected={"Выбранные регионы"}
-      onClickSearchButton={onClickSearchButton}
-    />
-  );
+  return <TestTable items={TABLE_ITEMS} config={CONFIG} />;
 };
 
 export { Settings };
