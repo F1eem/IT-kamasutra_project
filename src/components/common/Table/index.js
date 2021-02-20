@@ -5,13 +5,14 @@ import {
   Item,
   TableRow,
   WrapperFilterCheckbox,
+  WrapperTable,
   WrapperTestTable,
 } from "./units";
 import arrowUpImg from "components/assets/img/arrowUp.png";
 import arrowDownImg from "components/assets/img/arrowDown.png";
 import arrowUpDownImg from "components/assets/img/arrowUpDown.png";
 
-export const TestTable = ({ items, config }) => {
+export const TestTable = ({ items, config, wrapperStyle }) => {
   const [sortingState, setSortingState] = useState("default");
   const [localItems, setLocalItems] = useState([]);
   const [filterDropdownStatus, setFilterDropdownStatus] = useState(false);
@@ -66,8 +67,8 @@ export const TestTable = ({ items, config }) => {
   };
 
   return (
-    <>
-      <WrapperTestTable>
+    <WrapperTestTable {...{ wrapperStyle }}>
+      <WrapperTable>
         <TableRow>
           {Object.entries(localConfig).map(
             (e, key) =>
@@ -105,7 +106,7 @@ export const TestTable = ({ items, config }) => {
             <Item>/</Item>
           </TableRow>
         ))}
-      </WrapperTestTable>
+      </WrapperTable>
       {filterDropdownStatus && (
         <FilterDropdown>
           <b>Отображаемые колонки таблицы</b>
@@ -136,6 +137,6 @@ export const TestTable = ({ items, config }) => {
           </WrapperFilterCheckbox>
         </FilterDropdown>
       )}
-    </>
+    </WrapperTestTable>
   );
 };
