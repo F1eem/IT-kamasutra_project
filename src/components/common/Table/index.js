@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Arrow,
   FilterDropdown,
@@ -15,16 +15,10 @@ export const TestTable = ({ items, config }) => {
   const [sortingState, setSortingState] = useState("default");
   const [localItems, setLocalItems] = useState([]);
   const [filterDropdownStatus, setFilterDropdownStatus] = useState(false);
-  const [filterOptions, setFilterOptions] = useState({
-    id: true,
-    name: true,
-    secondName: true,
-    age: true,
-  });
+  const [localConfig, setFilterOptions] = useState(config);
   useEffect(() => {
     setLocalItems([...items]);
   }, [items]);
-
   const sortingFromLess = (localItems) => {
     const sortLocalItems = localItems.sort((a, b) => {
       if (a.age > b.age) return 1;
@@ -70,22 +64,19 @@ export const TestTable = ({ items, config }) => {
       }
     }
   };
+
   return (
     <>
       <WrapperTestTable>
         <TableRow>
-          {filterOptions.id && <Item heading={true}>{config.id.title}</Item>}
-          {filterOptions.name && (
-            <Item heading={true}>{config.name.title}</Item>
-          )}
-          {filterOptions.secondName && (
-            <Item heading={true}>{config.secondName.title}</Item>
-          )}
-          {filterOptions.age && (
-            <Item heading={true}>
-              {config.age.title}
-              <ArrowButton />
-            </Item>
+          {Object.entries(localConfig).map(
+            (e, key) =>
+              localConfig[e[0]].inOneClaimTable && (
+                <Item key={key} heading>
+                  {e[1].title}
+                  {e[0] === "age" && <ArrowButton />}
+                </Item>
+              )
           )}
           <Item
             pointer={true}
@@ -95,13 +86,23 @@ export const TestTable = ({ items, config }) => {
             Filter
           </Item>
         </TableRow>
-        {localItems.map((e) => (
-          <TableRow>
-            {filterOptions.id && <Item>{e.id}</Item>}
-            {filterOptions.name && <Item>{e.name}</Item>}
-            {filterOptions.secondName && <Item>{e.secondName}</Item>}
-            {filterOptions.age && <Item>{e.age}</Item>}
-            <Item>---</Item>
+        {localItems.map((item, key) => (
+          <TableRow key={key}>
+            {Object.entries(localConfig).reduce((result, count) => {
+              if (item[count[0]] || item[count[0]] === 0) {
+                result.push(
+                  localConfig[count[0]].inOneClaimTable && (
+                    <Item>{item[count[0]]}</Item>
+                  )
+                );
+              } else {
+                result.push(
+                  localConfig[count[0]].inOneClaimTable && <Item>---</Item>
+                );
+              }
+              return result;
+            }, [])}
+            <Item>/</Item>
           </TableRow>
         ))}
       </WrapperTestTable>
@@ -110,58 +111,28 @@ export const TestTable = ({ items, config }) => {
           <b>Отображаемые колонки таблицы</b>
           <div>Выберите отображаемые колонки:</div>
           <WrapperFilterCheckbox>
-            <div>
-              <input
-                onClick={() =>
-                  setFilterOptions({
-                    ...filterOptions,
-                    id: !filterOptions.id,
-                  })
-                }
-                checked={filterOptions.id}
-                type={"checkbox"}
-              />
-              {config.id.title}
-            </div>
-            <div>
-              <input
-                onClick={() =>
-                  setFilterOptions({
-                    ...filterOptions,
-                    name: !filterOptions.name,
-                  })
-                }
-                checked={filterOptions.name}
-                type={"checkbox"}
-              />
-              {config.name.title}
-            </div>
-            <div>
-              <input
-                onClick={() =>
-                  setFilterOptions({
-                    ...filterOptions,
-                    secondName: !filterOptions.secondName,
-                  })
-                }
-                checked={filterOptions.secondName}
-                type={"checkbox"}
-              />
-              {config.secondName.title}
-            </div>
-            <div>
-              <input
-                onClick={() =>
-                  setFilterOptions({
-                    ...filterOptions,
-                    age: !filterOptions.age,
-                  })
-                }
-                checked={filterOptions.age}
-                type={"checkbox"}
-              />
-              {config.age.title}
-            </div>
+            {Object.entries(localConfig).reduce((result, count) => {
+              result.push(
+                <div>
+                  <input
+                    onChange={() =>
+                      setFilterOptions({
+                        ...localConfig,
+                        [count[0]]: {
+                          ...localConfig[count[0]],
+                          inOneClaimTable: !localConfig[count[0]]
+                            .inOneClaimTable,
+                        },
+                      })
+                    }
+                    checked={localConfig[count[0]].inOneClaimTable}
+                    type={"checkbox"}
+                  />
+                  {config[count[0]].title}
+                </div>
+              );
+              return result;
+            }, [])}
           </WrapperFilterCheckbox>
         </FilterDropdown>
       )}

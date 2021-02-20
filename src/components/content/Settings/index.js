@@ -1,6 +1,4 @@
 import React from "react";
-import { TestMenu } from "../../Test2";
-import MultiSelector from "../../common/MultiSelector";
 import { TestTable } from "../../common/Table";
 
 // const ITEMS = [
@@ -22,10 +20,11 @@ const TABLE_ITEMS = [
   { id: 3, name: "Ivan", secondName: "Barankin", age: "30" },
 ];
 const CONFIG = {
-  id: { title: "ИД" },
-  name: { title: "Имя" },
-  secondName: { title: "Фамилия" },
-  age: { title: "Возраст" },
+  id: { title: "ИД", inOneClaimTable: true },
+  name: { title: "Имя", inOneClaimTable: true },
+  number: { title: "Тестовое поле", inOneClaimTable: true },
+  secondName: { title: "Фамилия", inOneClaimTable: true },
+  age: { title: "Возраст", inOneClaimTable: true },
 };
 
 const Settings = () => {

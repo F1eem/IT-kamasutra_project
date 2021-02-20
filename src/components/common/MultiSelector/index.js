@@ -33,7 +33,6 @@ const MultiSelector = ({
     }
   };
   const delSelectItem = (item) => {
-    debugger;
     setSelectedItems(selectedItems.filter((e) => e !== item));
   };
   const onClickSearchButtonHandler = () => {
