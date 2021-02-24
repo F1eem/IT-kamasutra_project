@@ -19,7 +19,7 @@ export const Header = styled.div`
   color: gray;
   font-size: 30px;
   background-color: ghostwhite;
-  border-radius: 10px 10px 0px 0px;
+  border-radius: 10px 10px 0 0;
   height: 70px;
   margin-bottom: 25px;
 `;
@@ -65,4 +65,8 @@ export const Button = styled.button`
   outline: none;
   text-shadow: 1px 1px 1px black;
   cursor: pointer;
+`;
+export const WrapperErrors = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
