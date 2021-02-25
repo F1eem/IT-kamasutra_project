@@ -13,46 +13,79 @@ import arrowDownImg from "components/assets/img/arrowDown.png";
 import arrowUpDownImg from "components/assets/img/arrowUpDown.png";
 
 export const TestTable = ({ items, config, wrapperStyle }) => {
-  const [sortingState, setSortingState] = useState("default");
+  const [sortingState, setSortingState] = useState({ id: "default" });
+  console.log(sortingState);
   const [localItems, setLocalItems] = useState([]);
   const [filterDropdownStatus, setFilterDropdownStatus] = useState(false);
   const [localConfig, setFilterOptions] = useState(config);
   useEffect(() => {
     setLocalItems([...items]);
   }, [items]);
-  const sortAsc = (localItems) => {
+  const sortAsc = (localItems, configItemKey) => {
     const sortLocalItems = localItems.sort((a, b) => {
-      return a.age - b.age;
+      if (parseInt(a[configItemKey]) >= 0 || parseInt(a[configItemKey]) <= 0) {
+        return a[configItemKey] - b[configItemKey];
+      } else {
+        const nameA = a.name.toLowerCase(),
+          nameB = b.name.toLowerCase();
+        if (nameA > nameB) return 1;
+        if (nameA < nameB) return -1;
+        return 0;
+      }
     });
     setLocalItems(sortLocalItems);
-    setSortingState("sortAsc");
+    setSortingState({ [configItemKey]: "sortAsc" });
   };
-  const sortDesc = (localItems) => {
+  const sortDesc = (localItems, configItemKey) => {
     const sortLocalItems = localItems.sort((a, b) => {
-      return b.age - a.age;
+      if (parseInt(a[configItemKey]) >= 0 || parseInt(a[configItemKey]) <= 0) {
+        return b[configItemKey] - a[configItemKey];
+      } else {
+        const nameA = a.name.toLowerCase(),
+          nameB = b.name.toLowerCase();
+        if (nameA < nameB) return 1;
+        if (nameA > nameB) return -1;
+        return 0;
+      }
     });
     setLocalItems(sortLocalItems);
-    setSortingState("sortDesc");
+    setSortingState({ [configItemKey]: "sortDesc" });
   };
-  const sortDefault = () => {
+  const sortDefault = (configItemKey) => {
     setLocalItems([...items]);
-    setSortingState("default");
+    setSortingState({ [configItemKey]: "default" });
   };
-  const ArrowButton = () => {
-    switch (sortingState) {
-      case "sortAsc": {
-        return (
-          <Arrow src={arrowDownImg} onClick={() => sortDesc(localItems)} />
-        );
+  const ArrowButton = ({ configItemKey }) => {
+    const sortingStateKey = Object.keys(sortingState)[0];
+    if (configItemKey === sortingStateKey) {
+      switch (sortingState[configItemKey]) {
+        case "sortAsc": {
+          return (
+            <Arrow
+              src={arrowDownImg}
+              onClick={() => sortDesc(localItems, configItemKey)}
+            />
+          );
+        }
+        case "sortDesc": {
+          return <Arrow src={arrowUpImg} onClick={sortDefault} />;
+        }
+        case "default": {
+          return (
+            <Arrow
+              src={arrowUpDownImg}
+              onClick={() => sortAsc(localItems, configItemKey)}
+            />
+          );
+        }
       }
-      case "sortDesc": {
-        return <Arrow src={arrowUpImg} onClick={sortDefault} />;
-      }
-      case "default": {
-        return (
-          <Arrow src={arrowUpDownImg} onClick={() => sortAsc(localItems)} />
-        );
-      }
+    } else {
+      return (
+        <Arrow
+          src={arrowUpDownImg}
+          onClick={() => sortAsc(localItems, configItemKey)}
+        />
+      );
     }
   };
   const formHeaderItems = (localConfig) => {
@@ -62,7 +95,9 @@ export const TestTable = ({ items, config, wrapperStyle }) => {
           localConfig[configItemKey].inOneClaimTable && (
             <Item key={key} heading>
               {configItemSetting.title}
-              {configItemKey === "age" && <ArrowButton />}
+              {configItemSetting.sortable && (
+                <ArrowButton {...{ configItemKey }} />
+              )}
             </Item>
           )
         );

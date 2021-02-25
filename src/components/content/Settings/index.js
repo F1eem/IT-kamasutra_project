@@ -32,11 +32,11 @@ const TABLE_ITEMS = [
   { id: 3, name: "Ivan", secondName: "Barankin", age: "30" },
 ];
 const CONFIG = {
-  id: { title: "ИД", inOneClaimTable: true },
-  name: { title: "Имя", inOneClaimTable: true },
+  id: { title: "ИД", inOneClaimTable: true, sortable: true },
+  name: { title: "Имя", inOneClaimTable: true, sortable: true },
   secondName: { title: "Фамилия", inOneClaimTable: true },
   number: { title: "Тест", inOneClaimTable: true },
-  age: { title: "Возраст", inOneClaimTable: true },
+  age: { title: "Возраст", inOneClaimTable: true, sortable: true },
 };
 
 const Settings = () => {
