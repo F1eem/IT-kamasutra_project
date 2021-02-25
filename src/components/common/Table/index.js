@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Arrow,
-  FilterDropdown,
+  WrapperFilterDropdown,
   Item,
   TableRow,
   WrapperFilterCheckbox,
@@ -20,23 +20,19 @@ export const TestTable = ({ items, config, wrapperStyle }) => {
   useEffect(() => {
     setLocalItems([...items]);
   }, [items]);
-  const sortingFromLess = (localItems) => {
+  const sortAsc = (localItems) => {
     const sortLocalItems = localItems.sort((a, b) => {
-      if (a.age > b.age) return 1;
-      if (a.age === b.age) return 0;
-      if (a.age < b.age) return -1;
+      return a.age - b.age;
     });
     setLocalItems(sortLocalItems);
-    setSortingState("fromLess");
+    setSortingState("sortAsc");
   };
-  const sortingFromBigger = (localItems) => {
+  const sortDesc = (localItems) => {
     const sortLocalItems = localItems.sort((a, b) => {
-      if (a.age > b.age) return -1;
-      if (a.age === b.age) return 0;
-      if (a.age < b.age) return 1;
+      return b.age - a.age;
     });
     setLocalItems(sortLocalItems);
-    setSortingState("fromBigger");
+    setSortingState("sortDesc");
   };
   const sortDefault = () => {
     setLocalItems([...items]);
@@ -44,41 +40,61 @@ export const TestTable = ({ items, config, wrapperStyle }) => {
   };
   const ArrowButton = () => {
     switch (sortingState) {
-      case "fromLess": {
+      case "sortAsc": {
         return (
-          <Arrow
-            src={arrowDownImg}
-            onClick={() => sortingFromBigger(localItems)}
-          />
+          <Arrow src={arrowDownImg} onClick={() => sortDesc(localItems)} />
         );
       }
-      case "fromBigger": {
+      case "sortDesc": {
         return <Arrow src={arrowUpImg} onClick={sortDefault} />;
       }
       case "default": {
         return (
-          <Arrow
-            src={arrowUpDownImg}
-            onClick={() => sortingFromLess(localItems)}
-          />
+          <Arrow src={arrowUpDownImg} onClick={() => sortAsc(localItems)} />
         );
       }
     }
   };
-
+  const formHeaderItems = (localConfig) => {
+    return Object.entries(localConfig).map(
+      ([configItemKey, configItemSetting], key) => {
+        return (
+          localConfig[configItemKey].inOneClaimTable && (
+            <Item key={key} heading>
+              {configItemSetting.title}
+              {configItemKey === "age" && <ArrowButton />}
+            </Item>
+          )
+        );
+      }
+    );
+  };
+  const formDataItems = (localConfig) => {
+    return localItems.map((dataItem, key) => (
+      <TableRow key={key}>
+        {Object.entries(localConfig).reduce((result, [configItemKey]) => {
+          if (dataItem[configItemKey] || dataItem[configItemKey] === 0) {
+            result.push(
+              localConfig[configItemKey].inOneClaimTable && (
+                <Item>{dataItem[configItemKey]}</Item>
+              )
+            );
+          } else {
+            result.push(
+              localConfig[configItemKey].inOneClaimTable && <Item>---</Item>
+            );
+          }
+          return result;
+        }, [])}
+        <Item>/</Item>
+      </TableRow>
+    ));
+  };
   return (
     <WrapperTestTable {...{ wrapperStyle }}>
       <WrapperTable>
         <TableRow>
-          {Object.entries(localConfig).map(
-            (e, key) =>
-              localConfig[e[0]].inOneClaimTable && (
-                <Item key={key} heading>
-                  {e[1].title}
-                  {e[0] === "age" && <ArrowButton />}
-                </Item>
-              )
-          )}
+          {formHeaderItems(localConfig)}
           <Item
             pointer={true}
             heading={true}
@@ -87,56 +103,45 @@ export const TestTable = ({ items, config, wrapperStyle }) => {
             Filter
           </Item>
         </TableRow>
-        {localItems.map((item, key) => (
-          <TableRow key={key}>
-            {Object.entries(localConfig).reduce((result, count) => {
-              if (item[count[0]] || item[count[0]] === 0) {
-                result.push(
-                  localConfig[count[0]].inOneClaimTable && (
-                    <Item>{item[count[0]]}</Item>
-                  )
-                );
-              } else {
-                result.push(
-                  localConfig[count[0]].inOneClaimTable && <Item>---</Item>
-                );
-              }
-              return result;
-            }, [])}
-            <Item>/</Item>
-          </TableRow>
-        ))}
+        {formDataItems(localConfig)}
       </WrapperTable>
       {filterDropdownStatus && (
-        <FilterDropdown>
-          <b>Отображаемые колонки таблицы</b>
-          <div>Выберите отображаемые колонки:</div>
-          <WrapperFilterCheckbox>
-            {Object.entries(localConfig).reduce((result, count) => {
-              result.push(
-                <div>
-                  <input
-                    onChange={() =>
-                      setFilterOptions({
-                        ...localConfig,
-                        [count[0]]: {
-                          ...localConfig[count[0]],
-                          inOneClaimTable: !localConfig[count[0]]
-                            .inOneClaimTable,
-                        },
-                      })
-                    }
-                    checked={localConfig[count[0]].inOneClaimTable}
-                    type={"checkbox"}
-                  />
-                  {config[count[0]].title}
-                </div>
-              );
-              return result;
-            }, [])}
-          </WrapperFilterCheckbox>
-        </FilterDropdown>
+        <FilterDropdown {...{ localConfig, config, setFilterOptions }} />
       )}
     </WrapperTestTable>
+  );
+};
+
+const FilterDropdown = ({ localConfig, config, setFilterOptions }) => {
+  const onChangeInputHandler = (configItemKey) => {
+    setFilterOptions({
+      ...localConfig,
+      [configItemKey]: {
+        ...localConfig[configItemKey],
+        inOneClaimTable: !localConfig[configItemKey].inOneClaimTable,
+      },
+    });
+  };
+  const formFilterItems = () => {
+    return Object.entries(localConfig).reduce((result, [configItemKey]) => {
+      result.push(
+        <div>
+          <input
+            onChange={() => onChangeInputHandler(configItemKey)}
+            checked={localConfig[configItemKey].inOneClaimTable}
+            type={"checkbox"}
+          />
+          {config[configItemKey].title}
+        </div>
+      );
+      return result;
+    }, []);
+  };
+  return (
+    <WrapperFilterDropdown>
+      <b>Отображаемые колонки таблицы</b>
+      <div>Выберите отображаемые колонки:</div>
+      <WrapperFilterCheckbox>{formFilterItems()}</WrapperFilterCheckbox>
+    </WrapperFilterDropdown>
   );
 };

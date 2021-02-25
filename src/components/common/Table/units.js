@@ -18,7 +18,7 @@ export const Arrow = styled.img`
   width: 15px;
   cursor: pointer;
 `;
-export const FilterDropdown = styled.div`
+export const WrapperFilterDropdown = styled.div`
   display: block;
   padding: 5px;
   box-shadow: 0 0 5px gainsboro;
