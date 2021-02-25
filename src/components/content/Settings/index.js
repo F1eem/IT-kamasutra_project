@@ -34,7 +34,7 @@ const TABLE_ITEMS = [
 const CONFIG = {
   id: { title: "ИД", inOneClaimTable: true, sortable: true },
   name: { title: "Имя", inOneClaimTable: true, sortable: true },
-  secondName: { title: "Фамилия", inOneClaimTable: true },
+  secondName: { title: "Фамилия", inOneClaimTable: true, sortable: true },
   number: { title: "Тест", inOneClaimTable: true },
   age: { title: "Возраст", inOneClaimTable: true, sortable: true },
 };

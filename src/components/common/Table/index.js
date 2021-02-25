@@ -26,10 +26,10 @@ export const TestTable = ({ items, config, wrapperStyle }) => {
       if (parseInt(a[configItemKey]) >= 0 || parseInt(a[configItemKey]) <= 0) {
         return a[configItemKey] - b[configItemKey];
       } else {
-        const nameA = a.name.toLowerCase(),
-          nameB = b.name.toLowerCase();
-        if (nameA > nameB) return 1;
+        const nameA = a[configItemKey].toLowerCase(),
+          nameB = b[configItemKey].toLowerCase();
         if (nameA < nameB) return -1;
+        if (nameA > nameB) return 1;
         return 0;
       }
     });
@@ -41,10 +41,10 @@ export const TestTable = ({ items, config, wrapperStyle }) => {
       if (parseInt(a[configItemKey]) >= 0 || parseInt(a[configItemKey]) <= 0) {
         return b[configItemKey] - a[configItemKey];
       } else {
-        const nameA = a.name.toLowerCase(),
-          nameB = b.name.toLowerCase();
-        if (nameA < nameB) return 1;
+        const nameA = a[configItemKey].toLowerCase(),
+          nameB = b[configItemKey].toLowerCase();
         if (nameA > nameB) return -1;
+        if (nameA < nameB) return 1;
         return 0;
       }
     });
