@@ -1,6 +1,8 @@
 import React from "react";
 import { TestTable } from "../../common/Table";
 import { css } from "@emotion/core";
+import ITEMS from "api/claimTable";
+import { claimDict } from "api/claimTable";
 
 // const ITEMS = [
 //   { id: 0, item: "Алтайский край" },
@@ -42,8 +44,8 @@ const CONFIG = {
 const Settings = () => {
   return (
     <TestTable
-      items={TABLE_ITEMS}
-      config={CONFIG}
+      items={ITEMS}
+      config={claimDict}
       wrapperStyle={css`
         margin-left: 5px;
       `}

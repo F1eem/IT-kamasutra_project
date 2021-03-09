@@ -11,13 +11,13 @@ import {
 import arrowUpImg from "components/assets/img/arrowUp.png";
 import arrowDownImg from "components/assets/img/arrowDown.png";
 import arrowUpDownImg from "components/assets/img/arrowUpDown.png";
+import { StatusButton } from "./StatusButton";
 
 export const TestTable = ({ items, config, wrapperStyle }) => {
   const [sortingState, setSortingState] = useState({ id: "default" });
-  console.log(sortingState);
   const [localItems, setLocalItems] = useState([]);
   const [filterDropdownStatus, setFilterDropdownStatus] = useState(false);
-  const [localConfig, setFilterOptions] = useState(config);
+  const [localConfig, setLocalConfig] = useState(config);
   useEffect(() => {
     setLocalItems([...items]);
   }, [items]);
@@ -111,7 +111,13 @@ export const TestTable = ({ items, config, wrapperStyle }) => {
           if (dataItem[configItemKey] || dataItem[configItemKey] === 0) {
             result.push(
               localConfig[configItemKey].inOneClaimTable && (
-                <Item>{dataItem[configItemKey]}</Item>
+                <Item pointer={true}>
+                  {configItemKey === "status" ? (
+                    <StatusButton status={dataItem[configItemKey]} />
+                  ) : (
+                    dataItem[configItemKey]
+                  )}
+                </Item>
               )
             );
           } else {
@@ -141,15 +147,15 @@ export const TestTable = ({ items, config, wrapperStyle }) => {
         {formDataItems(localConfig)}
       </WrapperTable>
       {filterDropdownStatus && (
-        <FilterDropdown {...{ localConfig, config, setFilterOptions }} />
+        <FilterDropdown {...{ localConfig, config, setLocalConfig }} />
       )}
     </WrapperTestTable>
   );
 };
 
-const FilterDropdown = ({ localConfig, config, setFilterOptions }) => {
+const FilterDropdown = ({ localConfig, config, setLocalConfig }) => {
   const onChangeInputHandler = (configItemKey) => {
-    setFilterOptions({
+    setLocalConfig({
       ...localConfig,
       [configItemKey]: {
         ...localConfig[configItemKey],

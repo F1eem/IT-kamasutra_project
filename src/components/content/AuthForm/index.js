@@ -1,10 +1,10 @@
 import React from "react";
-import { Button, Error, Field, FormWrapper, Header } from "./units";
+import { Button, Captcha, Error, Field, FormWrapper, Header } from "./units";
 import { login } from "redux/authReduser";
 import { connect } from "react-redux";
 import { useInput } from "../../Hooks/useInput";
 
-const AuthForm = ({ login, loginError }) => {
+const AuthForm = ({ login, loginError, captcha }) => {
   const email = useInput("", {
     isEmpty: true,
     minLength: 4,
@@ -12,6 +12,8 @@ const AuthForm = ({ login, loginError }) => {
     isEmail: true,
   });
   const password = useInput("", { isEmpty: true, minLength: 4, maxLength: 15 });
+  const captchaInput = useInput("");
+
   return (
     <FormWrapper>
       <Header>Authorization</Header>
@@ -51,8 +53,21 @@ const AuthForm = ({ login, loginError }) => {
         type={"password"}
       />
       {loginError && <Error>{loginError}</Error>}
+      {captcha && (
+        <div>
+          <Captcha src={captcha} />
+          <Field
+            value={captchaInput.value}
+            onBlur={captchaInput.onBlur}
+            onChange={captchaInput.onChange}
+            placeholder={"Symbols"}
+          />
+        </div>
+      )}
       <Button
-        onClick={() => login(email.value, password.value, false)}
+        onClick={() =>
+          login(email.value, password.value, false, captchaInput.value)
+        }
         disabled={!email.inputValid || !password.inputValid}
       >
         Login
@@ -60,6 +75,9 @@ const AuthForm = ({ login, loginError }) => {
     </FormWrapper>
   );
 };
-const mapStateToProps = ({ auth: { loginError } }) => ({ loginError });
+const mapStateToProps = ({ auth: { loginError, captcha } }) => ({
+  loginError,
+  captcha,
+});
 
 export default connect(mapStateToProps, { login })(AuthForm);

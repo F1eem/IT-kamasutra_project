@@ -59,11 +59,12 @@ export const authAPI = {
     const response = await instance.get(`auth/me`);
     return response.data;
   },
-  login: async (email, password, rememberMe) => {
+  login: async (email, password, rememberMe, captcha) => {
     const response = await instance.post(`auth/login`, {
       email,
       password,
       rememberMe,
+      captcha,
     });
     return response.data;
   },
@@ -78,6 +79,12 @@ export const galleryAPI = {
     const response = await axios.get(
       "https://jsonplaceholder.typicode.com/albums/1/photos"
     );
+    return response.data;
+  },
+};
+export const securityAPI = {
+  getCaptcha: async () => {
+    const response = await instance.get("security/get-captcha-url");
     return response.data;
   },
 };

@@ -29,6 +29,9 @@ export const Error = styled.div`
   color: red;
   font-size: 14px;
 `;
+export const Captcha = styled.img`
+  height: 100px;
+`;
 export const Field = styled.input`
   border-radius: 10px;
   display: flex;

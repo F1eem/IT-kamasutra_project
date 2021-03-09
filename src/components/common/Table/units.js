@@ -13,6 +13,9 @@ export const WrapperTable = styled.div`
 export const TableRow = styled.div`
   display: flex;
   width: 100%;
+  &:hover {
+    background-color: whitesmoke;
+  }
 `;
 export const Arrow = styled.img`
   width: 15px;
@@ -40,6 +43,7 @@ export const WrapperTestTable = styled.div`
   `}
 `;
 export const Item = styled.div`
+  padding: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -47,8 +51,9 @@ export const Item = styled.div`
   flex-grow: 1;
   border-bottom: 1px solid black;
   border-right: 1px solid black;
-  background-color: ${({ heading }) => (heading ? "gainsboro" : "white")};
+  background-color: ${({ heading }) => heading && "gainsboro"};
   color: black;
+  font-size: 12px;
   font-weight: ${({ heading }) => heading && "bold"};
   cursor: ${({ pointer }) => (pointer ? "pointer" : "default")};
 `;
