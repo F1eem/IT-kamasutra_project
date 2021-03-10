@@ -18,9 +18,18 @@ export const TestTable = ({ items, config, wrapperStyle }) => {
   const [localItems, setLocalItems] = useState([]);
   const [filterDropdownStatus, setFilterDropdownStatus] = useState(false);
   const [localConfig, setLocalConfig] = useState(config);
+  const [filterConfig, setFilterConfig] = useState(
+    JSON.parse(localStorage.getItem("filterTable"))
+  );
+
+  useEffect(() => {
+    localStorage.setItem("filterTable", JSON.stringify(filterConfig));
+  }, [filterConfig]);
+
   useEffect(() => {
     setLocalItems([...items]);
   }, [items]);
+
   const sortAsc = (localItems, configItemKey) => {
     const sortLocalItems = localItems.sort((a, b) => {
       if (parseInt(a[configItemKey]) >= 0 || parseInt(a[configItemKey]) <= 0) {
@@ -88,11 +97,11 @@ export const TestTable = ({ items, config, wrapperStyle }) => {
       );
     }
   };
-  const formHeaderItems = (localConfig) => {
+  const formHeaderItems = (localConfig, filterConfig) => {
     return Object.entries(localConfig).map(
       ([configItemKey, configItemSetting], key) => {
         return (
-          localConfig[configItemKey].inOneClaimTable && (
+          filterConfig[configItemKey] && (
             <Item key={key} heading>
               {configItemSetting.title}
               {configItemSetting.sortable && (
@@ -104,13 +113,13 @@ export const TestTable = ({ items, config, wrapperStyle }) => {
       }
     );
   };
-  const formDataItems = (localConfig) => {
+  const formDataItems = (localConfig, filterConfig) => {
     return localItems.map((dataItem, key) => (
       <TableRow key={key}>
         {Object.entries(localConfig).reduce((result, [configItemKey]) => {
           if (dataItem[configItemKey] || dataItem[configItemKey] === 0) {
             result.push(
-              localConfig[configItemKey].inOneClaimTable && (
+              filterConfig[configItemKey] && (
                 <Item pointer={true}>
                   {configItemKey === "status" ? (
                     <StatusButton status={dataItem[configItemKey]} />
@@ -121,9 +130,7 @@ export const TestTable = ({ items, config, wrapperStyle }) => {
               )
             );
           } else {
-            result.push(
-              localConfig[configItemKey].inOneClaimTable && <Item>---</Item>
-            );
+            result.push(filterConfig[configItemKey] && <Item>---</Item>);
           }
           return result;
         }, [])}
@@ -135,7 +142,7 @@ export const TestTable = ({ items, config, wrapperStyle }) => {
     <WrapperTestTable {...{ wrapperStyle }}>
       <WrapperTable>
         <TableRow>
-          {formHeaderItems(localConfig)}
+          {formHeaderItems(localConfig, filterConfig)}
           <Item
             pointer={true}
             heading={true}
@@ -144,23 +151,33 @@ export const TestTable = ({ items, config, wrapperStyle }) => {
             Filter
           </Item>
         </TableRow>
-        {formDataItems(localConfig)}
+        {formDataItems(localConfig, filterConfig)}
       </WrapperTable>
       {filterDropdownStatus && (
-        <FilterDropdown {...{ localConfig, config, setLocalConfig }} />
+        <FilterDropdown
+          {...{
+            localConfig,
+            config,
+            setLocalConfig,
+            filterConfig,
+            setFilterConfig,
+          }}
+        />
       )}
     </WrapperTestTable>
   );
 };
 
-const FilterDropdown = ({ localConfig, config, setLocalConfig }) => {
+const FilterDropdown = ({
+  localConfig,
+  config,
+  filterConfig,
+  setFilterConfig,
+}) => {
   const onChangeInputHandler = (configItemKey) => {
-    setLocalConfig({
-      ...localConfig,
-      [configItemKey]: {
-        ...localConfig[configItemKey],
-        inOneClaimTable: !localConfig[configItemKey].inOneClaimTable,
-      },
+    setFilterConfig({
+      ...filterConfig,
+      [configItemKey]: !filterConfig[configItemKey],
     });
   };
   const formFilterItems = () => {
@@ -169,7 +186,7 @@ const FilterDropdown = ({ localConfig, config, setLocalConfig }) => {
         <div>
           <input
             onChange={() => onChangeInputHandler(configItemKey)}
-            checked={localConfig[configItemKey].inOneClaimTable}
+            checked={filterConfig[configItemKey]}
             type={"checkbox"}
           />
           {config[configItemKey].title}
