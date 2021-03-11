@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { css } from "@emotion/core";
+import { NavLink } from "react-router-dom";
 
 export const WrapperTable = styled.div`
   display: flex;
@@ -10,7 +11,15 @@ export const WrapperTable = styled.div`
   box-shadow: 0 0 5px grey;
   align-self: start;
 `;
-export const TableRow = styled.div`
+export const TableRow = styled(NavLink)`
+  display: flex;
+  width: 100%;
+  &:hover {
+    background-color: whitesmoke;
+  }
+  text-decoration: none;
+`;
+export const HeadingRow = styled.div`
   display: flex;
   width: 100%;
   &:hover {
@@ -20,20 +29,6 @@ export const TableRow = styled.div`
 export const Arrow = styled.img`
   width: 15px;
   cursor: pointer;
-`;
-export const WrapperFilterDropdown = styled.div`
-  display: block;
-  padding: 5px;
-  box-shadow: 0 0 5px gainsboro;
-  background-color: white;
-  width: 250px;
-  position: absolute;
-  right: 20px;
-  top: 10px;
-`;
-export const WrapperFilterCheckbox = styled.div`
-  display: flex;
-  flex-direction: column;
 `;
 export const WrapperTestTable = styled.div`
   position: relative;

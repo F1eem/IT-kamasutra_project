@@ -12,6 +12,7 @@ const Menu = () => {
         <NavLinkButton to="/settings">Settings</NavLinkButton>
         <NavLinkButton to="/news">News</NavLinkButton>
         <NavLinkButton to="/users">Users</NavLinkButton>
+        <NavLinkButton to="/table">Table</NavLinkButton>
       </WrapperElemMenu>
       <Sidebar />
     </WrapperMenu>

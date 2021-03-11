@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import {
   Arrow,
-  WrapperFilterDropdown,
+  HeadingRow,
   Item,
   TableRow,
-  WrapperFilterCheckbox,
   WrapperTable,
   WrapperTestTable,
 } from "./units";
@@ -12,8 +11,11 @@ import arrowUpImg from "components/assets/img/arrowUp.png";
 import arrowDownImg from "components/assets/img/arrowDown.png";
 import arrowUpDownImg from "components/assets/img/arrowUpDown.png";
 import { StatusButton } from "./StatusButton";
+import { FilterDropdown } from "./FilterDropdown";
+import { connect } from "react-redux";
+import { setTableItems } from "redux/tableReducer";
 
-export const TestTable = ({ items, config, wrapperStyle }) => {
+const TestTable = ({ items, config, wrapperStyle, setTableItems }) => {
   const [sortingState, setSortingState] = useState({ id: "default" });
   const [localItems, setLocalItems] = useState([]);
   const [filterDropdownStatus, setFilterDropdownStatus] = useState(false);
@@ -21,6 +23,10 @@ export const TestTable = ({ items, config, wrapperStyle }) => {
   const [filterConfig, setFilterConfig] = useState(
     JSON.parse(localStorage.getItem("filterTable"))
   );
+
+  useEffect(() => {
+    setTableItems();
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("filterTable", JSON.stringify(filterConfig));
@@ -115,7 +121,7 @@ export const TestTable = ({ items, config, wrapperStyle }) => {
   };
   const formDataItems = (localConfig, filterConfig) => {
     return localItems.map((dataItem, key) => (
-      <TableRow key={key}>
+      <TableRow to={"/table/" + dataItem.claimId} key={key}>
         {Object.entries(localConfig).reduce((result, [configItemKey]) => {
           if (dataItem[configItemKey] || dataItem[configItemKey] === 0) {
             result.push(
@@ -141,7 +147,7 @@ export const TestTable = ({ items, config, wrapperStyle }) => {
   return (
     <WrapperTestTable {...{ wrapperStyle }}>
       <WrapperTable>
-        <TableRow>
+        <HeadingRow>
           {formHeaderItems(localConfig, filterConfig)}
           <Item
             pointer={true}
@@ -150,7 +156,7 @@ export const TestTable = ({ items, config, wrapperStyle }) => {
           >
             Filter
           </Item>
-        </TableRow>
+        </HeadingRow>
         {formDataItems(localConfig, filterConfig)}
       </WrapperTable>
       {filterDropdownStatus && (
@@ -158,7 +164,6 @@ export const TestTable = ({ items, config, wrapperStyle }) => {
           {...{
             localConfig,
             config,
-            setLocalConfig,
             filterConfig,
             setFilterConfig,
           }}
@@ -167,39 +172,8 @@ export const TestTable = ({ items, config, wrapperStyle }) => {
     </WrapperTestTable>
   );
 };
+const MapStateToProps = ({ table: { items } }) => ({
+  items,
+});
 
-const FilterDropdown = ({
-  localConfig,
-  config,
-  filterConfig,
-  setFilterConfig,
-}) => {
-  const onChangeInputHandler = (configItemKey) => {
-    setFilterConfig({
-      ...filterConfig,
-      [configItemKey]: !filterConfig[configItemKey],
-    });
-  };
-  const formFilterItems = () => {
-    return Object.entries(localConfig).reduce((result, [configItemKey]) => {
-      result.push(
-        <div>
-          <input
-            onChange={() => onChangeInputHandler(configItemKey)}
-            checked={filterConfig[configItemKey]}
-            type={"checkbox"}
-          />
-          {config[configItemKey].title}
-        </div>
-      );
-      return result;
-    }, []);
-  };
-  return (
-    <WrapperFilterDropdown>
-      <b>Отображаемые колонки таблицы</b>
-      <div>Выберите отображаемые колонки:</div>
-      <WrapperFilterCheckbox>{formFilterItems()}</WrapperFilterCheckbox>
-    </WrapperFilterDropdown>
-  );
-};
+export default connect(MapStateToProps, { setTableItems })(TestTable);

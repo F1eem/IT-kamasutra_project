@@ -7,6 +7,7 @@ import { usersReducer } from "./usersReducer";
 import { authReducer } from "./authReduser";
 import thunkMiddleWare from "redux-thunk";
 import { appReducer } from "./appReduser";
+import { tableReducer } from "./tableReducer";
 
 let reducers = combineReducers({
   dialogPage: dialogReducer,
@@ -16,6 +17,7 @@ let reducers = combineReducers({
   usersPage: usersReducer,
   auth: authReducer,
   app: appReducer,
+  table: tableReducer,
 });
 
 let store = createStore(reducers, applyMiddleware(thunkMiddleWare));

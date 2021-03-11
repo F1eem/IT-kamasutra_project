@@ -1,5 +1,5 @@
 import React from "react";
-import { TestTable } from "../../common/Table";
+import { TestTable } from "../Table";
 import { css } from "@emotion/core";
 import ITEMS from "api/claimTable";
 import { claimDict } from "api/claimTable";
@@ -42,15 +42,7 @@ const CONFIG = {
 };
 
 const Settings = () => {
-  return (
-    <TestTable
-      items={ITEMS}
-      config={claimDict}
-      wrapperStyle={css`
-        margin-left: 5px;
-      `}
-    />
-  );
+  return <div>Setting</div>;
 };
 
 export { Settings };
