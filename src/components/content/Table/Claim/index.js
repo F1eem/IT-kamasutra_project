@@ -19,6 +19,7 @@ const Claim = ({ setTableClaim, currentClaim, setTableItems, config }) => {
   useEffect(() => {
     setTableItems();
   }, []);
+
   useEffect(() => {
     setTableClaim(currentClaimId);
   }, [currentClaimId]);

@@ -21,7 +21,7 @@ const TestTable = ({ items, config, wrapperStyle, setTableItems }) => {
   const [filterDropdownStatus, setFilterDropdownStatus] = useState(false);
   const [localConfig, setLocalConfig] = useState(config);
   const [filterConfig, setFilterConfig] = useState(
-    JSON.parse(localStorage.getItem("filterTable"))
+    JSON.parse(localStorage.getItem("filterTable")) || []
   );
 
   useEffect(() => {
