@@ -2,6 +2,7 @@ import React from "react";
 import star from "components/assets/img/star.png";
 import starEmpty from "components/assets/img/starEmpty.png";
 import halfStar from "components/assets/img/halfStar.png";
+import { Star } from "./units";
 
 export const RatingBar = ({ rating }) => {
   const formRating = () => {
@@ -17,11 +18,11 @@ export const RatingBar = ({ rating }) => {
     return arrRating.map((el) => {
       switch (el) {
         case 1:
-          return <img width={"20px"} height={"20px"} src={star} />;
+          return <Star src={star} />;
         case 0.5:
-          return <img width={"20px"} height={"20px"} src={halfStar} />;
+          return <Star src={halfStar} />;
         case 0:
-          return <img width={"20px"} height={"20px"} src={starEmpty} />;
+          return <Star src={starEmpty} />;
       }
     });
   };
