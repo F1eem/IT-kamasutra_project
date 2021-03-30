@@ -30,7 +30,7 @@ const Claim = ({ setTableClaim, currentClaim, setTableItems, config }) => {
         result.push(
           <ClaimRow>
             <Title>{configItem.title}</Title>
-            <div>{currentClaim[configKey] ? currentClaim[configKey] : "-"}</div>
+            <div>{currentClaim[configKey] || "-"}</div>
           </ClaimRow>
         );
       }
