@@ -5,13 +5,15 @@ import { SlideItem } from "./SlideItem";
 const MySlide = ({ itemWidth, slideWidth, slideItemsData }) => {
   const [position, setPosition] = useState(0);
   const positionHandler = (side) => {
-    side === "left"
-      ? setPosition(position < 0 ? position + itemWidth : 0)
-      : setPosition(
-          position > -(itemWidth * slideItemsData.length - slideWidth)
-            ? position - itemWidth
-            : 0
-        );
+    if (side === "left") {
+      setPosition(position < 0 ? position + itemWidth : 0);
+    } else {
+      setPosition(
+        position > -(itemWidth * slideItemsData.length - slideWidth)
+          ? position - itemWidth
+          : 0
+      );
+    }
   };
 
   return (
@@ -23,7 +25,7 @@ const MySlide = ({ itemWidth, slideWidth, slideItemsData }) => {
 
       <WrapperItems position={position}>
         {slideItemsData.map(({ id, ...rest }) => (
-          <SlideItem key={id} itemWidth={itemWidth} {...{ ...rest }} />
+          <SlideItem key={id} itemWidth={itemWidth} {...rest} />
         ))}
       </WrapperItems>
     </WrapperSlide>
