@@ -5,11 +5,13 @@ import halfStar from "components/assets/img/halfStar.png";
 import { Star } from "./units";
 
 export const RatingBar = ({ rating }) => {
-  const formRating = () => {
+  const formRating = useMemo(() => {
     const roundHalf = (num) => {
       return Math.round(num * 2) / 2;
     };
+
     let localRating = rating;
+
     let arrRating = Array.from({ length: 5 });
     arrRating.forEach((el, index, array) => {
       if (roundHalf(localRating) >= 1) {
@@ -19,16 +21,6 @@ export const RatingBar = ({ rating }) => {
       } else array[index] = 0;
       localRating -= 1;
     });
-
-    // const arrRating = [];
-    // for (let i = 0; i < 5; i++) {
-    //   roundHalf(localRating) >= 1
-    //     ? arrRating.push(1)
-    //     : roundHalf(localRating) === 0.5
-    //     ? arrRating.push(0.5)
-    //     : arrRating.push(0);
-    //   localRating -= 1;
-    // }
 
     return arrRating.map((el) => {
       switch (el) {
@@ -42,7 +34,6 @@ export const RatingBar = ({ rating }) => {
           return <Star src={starEmpty} />;
       }
     });
-  };
-  const memoFormRating = useMemo(() => formRating(), [rating]);
-  return <div>{memoFormRating}</div>;
+  }, [rating]);
+  return <div>{formRating}</div>;
 };
