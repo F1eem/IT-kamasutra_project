@@ -9,10 +9,6 @@ import Gallery from "./Gallery/index";
 // import Users from "./Users/index";
 import Profile from "./Profile/index";
 import Login from "./Login";
-import TestTable from "./Table";
-import { claimDict } from "api/claimTable";
-import { css } from "@emotion/core";
-import Claim from "./Table/Claim";
 const Dialogs = React.lazy(() => import("./Dialogs/index"));
 const Users = React.lazy(() => import("./Users/index"));
 
@@ -28,22 +24,6 @@ const Content = () => {
         <Route path="/login" render={() => <Login />} />
         <Route path="/settings" render={() => <Settings />} />
         <Route path="/news" render={() => <News />} />
-        <Route
-          exact
-          path="/table"
-          render={() => (
-            <TestTable
-              config={claimDict}
-              wrapperStyle={css`
-                margin-left: 5px;
-              `}
-            />
-          )}
-        />
-        <Route
-          path="/table/:currentClaimId"
-          render={() => <Claim config={claimDict} />}
-        />
       </WrapperContent>
     </Suspense>
   );
